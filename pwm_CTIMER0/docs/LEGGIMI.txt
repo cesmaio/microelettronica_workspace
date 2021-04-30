@@ -1,0 +1,31 @@
+${ProjName}:
+pwm_CTIMER0
+
+Hardware: scheda LPC845-BRK
+
+
+Scopo del dimostrativo:
+valutare la funzionalità di CTIMER0 per generare segnali PWM.
+
+
+Descrizione funzionale:
+* Il led verde della scheda (collegato a PIO1.0) viene 
+* pilotato direttamente dall'uscita T0_MAT0.
+* Il duty cycle del segnale PWM viene modificato nella 
+* ISR dell'IRQ generato dal match con MR[3] ogni 10 ms.
+
+
+Connessioni esterne:
+* nessuna
+
+
+Flusso del programma:
+* L'esempio pone il clock di sistema a 30 MHz
+  con SystemInit() e chip_setup.h.
+
+
+* funzione main()
+   1. Abilita il clock per le periferiche utilizzate;
+   2. Inizializza CTIMER0 per PWM
+   3. nel ciclo infinito while(1) non si fa nulla
+
