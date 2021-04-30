@@ -482,3 +482,12 @@ unsigned int clearL(unsigned int L)
 		WriteAscii(32); //space
 	}
 }
+
+/**************************************************
+*****   Write a character on LCD (WriteAscii)  ****
+***************************************************/
+void writeC(unsigned char symbol)
+{
+	DelayMs(1);					 // Wait until LCD is free
+	WriteByte(DATA, symbol); // Write character to DR
+}
