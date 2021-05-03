@@ -7,16 +7,15 @@
  Description : a reaction mini-game
 ===============================================================================
 */
+
 #include <stdlib.h>
 
-#include "Delay.h"
 #include "HD44780.h"
 #include "LED.h"
-#include "LPC8xx.h"
 
 // # definizioni
-#define B1_pressed ~(LPC_GPIO_PORT->PIN0 & (1 << 9))  // button 1 pin 18
-#define B2_pressed ~(LPC_GPIO_PORT->PIN0 & (1 << 8))  // button 2 pin 19
+#define B1_pressed !(LPC_GPIO_PORT->PIN0 & (1 << 9))  // button 1 pin 18
+#define B2_pressed !(LPC_GPIO_PORT->PIN0 & (1 << 8))  // button 2 pin 19
 #define frecciaDx 0x7E
 #define frecciaSx 0x7F
 #define dot 0xA5
@@ -41,19 +40,23 @@ unsigned char gun_grillettoDx[8] = {0x00, 0x1F, 0x1F, 0x1F, 0x09, 0x06, 0x00, 0x
 unsigned char gun_cannaDx[8] = {0x08, 0x1F, 0x1F, 0x00, 0x00, 0x00, 0x00, 0x00};
 unsigned char sparoSx[8] = {0x0E, 0x1F, 0x1F, 0x06, 0x10, 0x02, 0x08, 0x00};
 
+unsigned char gunSx[3] = {0, 1, 2};
+unsigned char gunDx[3] = {6, 5, 4};
+
 unsigned char findChars[3] = {'<', '>', ':'};
 unsigned char replaceChars[3] = {frecciaSx, frecciaDx, dot};
 
 // # Prototipi
 unsigned int setupLCD(unsigned int bit);                        // init LCD 2 lines 4 bit/8 bit
-void intro();                                                   // mostra la schermata di intro del gioco
 void CharGen(unsigned char LineOfDots[8], unsigned char addr);  // genera carattere personalizzato e salva in memoria di LCD
+void intro();                                                   // mostra la schermata di intro del gioco
 void showRules(void);                                           // mostra le regole
 unsigned int selectMode(void);                                  // seleziona modalità di gioco, 1 -> 1vs1 2 -> vsCOM
 unsigned int ready(unsigned int mode);                          // tutto pronto per giocare? 1 = si, 0 = no
-void play(unsigned int mode);                                   // avvia il gioco con la modalità selezionata
+unsigned int play(unsigned int mode);                           // avvia il gioco con la modalità selezionata
 unsigned int shootAt(unsigned int player);                      // animazione su LCD quando uno dei due giocatori spara
 unsigned int playagain(void);                                   // mostra il messaggio "vuoi giocare di nuovo?"
+void goodbye(void);                                             // mostra il messaggio di "arrivederci"
 
 // # MAIN
 int main(void) {
@@ -61,14 +64,21 @@ int main(void) {
         R_ON return 1;
     }  // accendi LED R on board se c'è un errore
 
+    // ## genera i caratteri personalizzati per le pistole
+    CharGen(gun_calcioSx, _gun_calcioSx);
+    CharGen(gun_grillettoSx, _gun_grillettoSx);
+    CharGen(gun_cannaSx, _gun_cannaSx);
+    CharGen(sparoSx, _sparoSx);
+    CharGen(gun_calcioDx, _gun_calcioDx);
+    CharGen(gun_grillettoDx, _gun_grillettoDx);
+    CharGen(gun_cannaDx, _gun_cannaDx);
+    CharGen(sparoDx, _sparoDx);
+
     do {
         int seed = -1;  // seed per generare numeri random
         int mode = 0;   // modalità di gioco
 
-        // INTRO
-        writeL(1, "---- REGOLE ----* Quick Finger *---- GIOCA -----");
-        writeL_replace(2, "Tocca un bottone<REGOLE   GIOCA><1vs1     vsCOM>", findChars, replaceChars);
-        DisplayRight(16);  // schermata principale
+        intro();  // mostra il messaggio di intro
 
         // seeding (credits to Lorenzo Sabino)
         int count = 0;
@@ -76,19 +86,23 @@ int main(void) {
             DelayMs(1);
             count++;
             if (B1_pressed) {
-                slideDisplay("l", 100);
                 showRules();
+                intro();  // torna al messaggio di intro
             } else if (B2_pressed) {
-                seed = count;  // salva seed
-                slideDisplay("r", 100);
-                mode = selectMode();  // 1 = 1vs1, 2 = vsCOM
+                seed = count;            // salva seed
+                slideDisplay('l', 100);  // transizione verso la schermata di gioco (già stampata da intro())
+                mode = selectMode();     // 1 = 1vs1, 2 = vsCOM
             }
         }
         srand(seed);  // seed rand
 
         if (ready(mode))
             play(mode);  // loop principale
+
+        if (mode == 2) continue;
     } while (playagain());
+
+    goodbye();
 
     return 0;
 }  // end main
@@ -121,10 +135,23 @@ void CharGen(unsigned char LineOfDots[8], unsigned char addr) {  // uso più mem
     PutCommand(LINE1_HOME);
 }
 
+void intro(void) {
+    PutCommand(DISPLAY_CLEAR);
+    writeL_replace(1, ": Quick Finger :---- GIOCA -----", findChars, replaceChars, 3);
+    writeL_replace(2, "<REGOLE   GIOCA><1vs1     vsCOM>", findChars, replaceChars, 3);
+    DelayMs(1000);
+}
+
 void showRules(void) {
+    writeL_replace(1, "---- REGOLE ----: Quick Finger :", findChars, replaceChars, 3);
+    writeL_replace(2, "Tocca un bottone<REGOLE   GIOCA>", findChars, replaceChars, 3);
+    DisplayLeft(16);  // schermata principale
+
+    slideDisplay('r', 100);  // transizione verso schermata regole
+
     // aspetta che venga premuto un pulsante
     int count = 0;
-    while (B1_pressed || B2_pressed) {  // blink line
+    while (!(B1_pressed || B2_pressed)) {  // blink line
         if (++count % 2 == 0)
             writeL(2, "Tocca un bottone");
         else
@@ -132,33 +159,42 @@ void showRules(void) {
 
         DelayMs(500);
     }
-
+    // mostra tutte le regole in 4 slide
     writeL(1, "Quando vedi '!' ");
     writeL(2, "sullo schermo...");
-    while (B1_pressed || B2_pressed)
+    DelayMs(1000);  // evita di continuare a prendere il bottone premuto
+    while (!(B1_pressed || B2_pressed))
         ;
+
     writeL(1, "Tocca il bottone");
-    writeL_replace(2, "< per sparare  >", findChars, replaceChars);
-    while (B1_pressed || B2_pressed)
+    writeL_replace(2, "< per sparare  >", findChars, replaceChars, 3);
+    DelayMs(1000);  // evita di continuare a prendere il bottone premuto
+    while (!(B1_pressed || B2_pressed))
         ;
+
     writeL(1, "chi spara primo ");
     writeL(2, "ottiene +1 punto");
-    while (B1_pressed || B2_pressed)
+    DelayMs(1000);  // evita di continuare a prendere il bottone premuto
+    while (!(B1_pressed || B2_pressed))
         ;
+
     writeL(1, "il giocatore che");
     writeL(2, "arriva a 3 VINCE");
-    while (B1_pressed || B2_pressed)
+    DelayMs(1000);  // evita di continuare a prendere il bottone premuto
+    while (!(B1_pressed || B2_pressed))
         ;
 }
 
 unsigned int selectMode(void) {
     unsigned int mode = 0;
 
+    PutCommand(DISPLAY_CLEAR);
+    writeL(1, "---- GIOCA -----");
     // aspetta che venga premuto un pulsante
     int count = 0;
-    while (B1_pressed || B2_pressed) {  // blink line
+    while (1) {  // blink line
         if (++count % 2 == 0)
-            writeL_replace(2, "<1vs1     vsCOM>", findChars, replaceChars);
+            writeL_replace(2, "<1vs1     vsCOM>", findChars, replaceChars, 3);
         else
             clearL(2);
 
@@ -166,12 +202,14 @@ unsigned int selectMode(void) {
 
         if (B1_pressed) {
             // seleziona 1v1, mostra il testo a Sx lampeggiante per indicare la selezione
-            writeBlinkL(2, 1, "1vs1", 3, 100);
+            writeL_replace(2, "<1vs1     vsCOM>", findChars, replaceChars, 3);
+            writeBlinkL(2, 1, "1vs1", 4, 3, 200);
             mode = 1;
             break;
         } else if (B2_pressed) {
             // seleziona COM, mostra testo lampeggiante a Dx
-            writeBlinkL(2, 13, "vsCOM", 3, 100);
+            writeL_replace(2, "<1vs1     vsCOM>", findChars, replaceChars, 3);
+            writeBlinkL(2, 10, "vsCOM", 5, 3, 200);
             mode = 2;
             break;
         }
@@ -187,33 +225,40 @@ unsigned int ready(unsigned int mode) {
     // 1vs1
     if (mode == 1) {
         writeL(1, "    PRONTI ?    ");
-        unsigned char line2[16] = "<G1          G2>";
+        writeL_replace(2, "<G1          G2>", findChars, replaceChars, 3);
 
-        // aspetta che vengano premuti entrambi i pulsanti
+        // aspetta che vengano premuti entrambi i pulsanti (giocatori pronti)
         unsigned int G1_ready = 0, G2_ready = 0;
         int count = 0;
         while (!(G1_ready && G2_ready)) {  // blink line
-            if (++count % 2 == 0)
-                writeL_replace(2, line2, findChars, replaceChars);
-            else
-                clearL(2);
+            if (++count % 2 == 0) {
+                writeToXY(1, 1, "G1");
+                writeToXY(13, 1, "G2");
+                // scrivi "OK!" di fianco al giocatore quando schiaccia il suo bottone
+                if (G1_ready) writeToXY(4, 1, "OK!");
+                if (G2_ready) writeToXY(9, 1, "OK!");
+            } else
+                writeToXY(1, 1, "              ");  // cancella G1 e G2 (non le frecce)
 
             DelayMs(500);
 
             if (B1_pressed) {
-                writeToXY(4, 1, "OK!");
+                G1_ready = 1;
             }
             if (B2_pressed) {
-                writeToXY(8, 1, "OK!");
+                G2_ready = 1;
             }
         }
+        writeBlinkL(2, 1, "G1 OK!  OK! G2", 14, 3, 200);  // animazione di selezione
         return 1;
     }
     // vsCOM
     else if (mode == 2) {
-        writeL(1, "Non ancora");
-        writeL(2, "disponibile");
-        return 0;
+        PutCommand(DISPLAY_CLEAR);
+        writeL(1, "   Non ancora   ");
+        writeL(2, "   disponibile  ");
+        DelayMs(2000);
+        return 2;
     }
 
     return 0;
@@ -228,15 +273,7 @@ unsigned int play(unsigned int mode) {
     unsigned int winning = 0;          // controlla chi ha vinto un punto 1 0 2
     unsigned int finished = 0;         // controlla se il gioco è finito, ha vinto 1 o 2
 
-    // ## genera i caratteri personalizzati per le pistole
-    CharGen(gun_calcioSx, _gun_calcioSx);
-    CharGen(gun_grillettoSx, _gun_grillettoSx);
-    CharGen(gun_cannaSx, _gun_cannaSx);
-    CharGen(sparoSx, _sparoSx);
-    CharGen(gun_calcioDx, _gun_calcioDx);
-    CharGen(gun_grillettoDx, _gun_grillettoDx);
-    CharGen(gun_cannaDx, _gun_cannaDx);
-    CharGen(sparoDx, _sparoDx);
+    if (mode == 2) return 0;
 
     // loop principale
     do {
@@ -255,7 +292,8 @@ unsigned int play(unsigned int mode) {
         writeC(_gun_calcioSx);
         writeC(_gun_grillettoSx);
         writeC(_gun_cannaSx);
-        writeToXY(13, 1, _gun_cannaDx);
+        writeToXY(13, 1, "");
+        writeC(_gun_cannaDx);
         writeC(_gun_grillettoDx);
         writeC(_gun_calcioDx);
 
@@ -263,13 +301,13 @@ unsigned int play(unsigned int mode) {
 
         // scrivi round
         writeToXY(5, 0, "ROUND");
-        Write_ndigitsval(++round; 1);
+        Write_ndigitsval(++round, 1);
 
-        DelayMS(1000);
+        DelayMs(3000);
 
         writeToXY(4, 0, "        ");  // cancella scritta round
 
-        DelayMs(100);
+        DelayMs(1000);
 
         // genera numero random di punti (da 2 a 7) prima del '!'
         uint8_t wait_dots = rand() % 6 + 2;
@@ -310,18 +348,37 @@ unsigned int play(unsigned int mode) {
                 }
             } while (!winning);
 
-            DelayMS(1000);
+            DelayMs(1000);
 
-            // assegna il punto al vincitore, fai sparire il fumo dello sparo
-            writeToXY(3, 1, "    G");
+            PutCommand(DISPLAY_CLEAR);
+            // scrivi punteggi
+            writeL(1, "G1:         G2: ");
+            writeToXY(3, 0, "");
+            Write_ndigitsval(points_G1, 1);
+            writeToXY(15, 0, "");
+            Write_ndigitsval(points_G2, 1);
+
+            // print guns
+            PutCommand(LINE2_HOME);
+            writeC(_gun_calcioSx);
+            writeC(_gun_grillettoSx);
+            writeC(_gun_cannaSx);
+            writeToXY(13, 1, "");
+            writeC(_gun_cannaDx);
+            writeC(_gun_grillettoDx);
+            writeC(_gun_calcioDx);
+
+            // assegna il punto al vincitore
+            writeToXY(5, 1, "G");
             Write_ndigitsval(winning, 1);
-            WriteAfter(" +1    ");
+            writeToXY(9, 1, "+1");
 
-            DelayMS(3000);
+            DelayMs(3000);
 
             winning = 0;
         } else {  // qualcuno ha barato
-            DelayMS(1000);
+            DelayMs(1000);
+
             int cheat_count = 0;
             if (cheating == 1)
                 cheat_count = cheat_G1;
@@ -330,35 +387,29 @@ unsigned int play(unsigned int mode) {
             else
                 return 1;  // error
 
+            PutCommand(DISPLAY_CLEAR);
+
             // segnala chi ha barato
+            if (cheat_count == 1) {
+                writeL(1, "G  tieni a bada ");
+                writeL(2, " il grilletto!  ");
+            } else if (cheat_count == 2) {
+                writeL(1, "G  riprovaci e  ");
+                writeL(2, "   sei fuori!   ");
+            } else {  // 3
+                writeL(1, "G  ora e' troppo");
+                writeL(2, "ti sei suicidato");
 
-            switch (cheat_count) {
-                case 1:
-                    writeL(1, "G  tieni a bada ");
-                    writeL(2, " il grilletto!  ");
-                    writeToXY(1, 0, "");
-                    break;
-                case 2:
-                    writeL(1, " G  riprovaci e ");
-                    writeL(2, "   sei fuori!   ");
-                    writeToXY(2, 0, "");
-                    break;
-                case 3:  // dopo la terza volta si perde automaticamente
-                    if (cheating == 1)
-                        finished = 2;  // vince G2
-                    else
-                        finished = 1;  // vince G1
-
-                    writeL(1, "G  ora e' troppo");
-                    writeL(2, "ti sei suicidato");
-                    writeToXY(1, 0, "");
-                    break;
-                default:
-                    break;
+                if (cheating == 1)
+                    finished = 2;  // vince G2
+                else
+                    finished = 1;  // vince G1
             }
+
+            writeToXY(1, 0, "");
             Write_ndigitsval(cheating, 1);
 
-            DelayMS(5000);
+            DelayMs(5000);
 
             cheating = 0;
             round--;  // ripeti il round
@@ -369,22 +420,22 @@ unsigned int play(unsigned int mode) {
             finished = 1;
         } else if (points_G2 == 3) {
             finished = 2;
-        } else
-            continue;
+        }
 
         // abbiamo un vincitore
         if (finished) {
             // scrivi punteggi
+            PutCommand(DISPLAY_CLEAR);
+
             writeL(1, "G1:         G2: ");
             writeToXY(3, 0, "");
             Write_ndigitsval(points_G1, 1);
             writeToXY(15, 0, "");
             Write_ndigitsval(points_G2, 1);
 
-            clearL(2);
-            writeL(2, "     G");
+            writeToXY(4, 1, "G");
             Write_ndigitsval(finished, 1);
-            writeBlinkL(2, 8, "VINCE!", 5, 500);
+            writeBlinkL(2, 7, "VINCE!", 6, 5, 500);
 
             playing = 0;
         }
@@ -401,16 +452,14 @@ unsigned int shootAt(unsigned int player) {
         // G2 spara
         writeToXY(12, 1, "");
         writeC(_sparoDx);
-        DelayMS(500);
-        unsigned char gunSx[3] = {_gun_calcioSx, _gun_grillettoSx, _gun_calcioSx};
-        writeBlinkL(2, 0, gunSx, 3, 100);
+        DelayMs(500);
+        writeBlinkL(2, 0, gunSx, 3, 3, 300);
     } else if (player == 2) {
         // G1 spara
         writeToXY(3, 1, "");
         writeC(_sparoSx);
-        DelayMS(500);
-        unsigned char gunDx[3] = {_gun_cannaDx, _gun_grillettoDx, _gun_calcioDx};
-        writeBlinkL(2, 0, gunSx, 3, 100);
+        DelayMs(500);
+        writeBlinkL(2, 13, gunDx, 3, 3, 300);
     } else
         return 1;  // error
 
@@ -418,8 +467,50 @@ unsigned int shootAt(unsigned int player) {
 }
 
 unsigned int playagain(void) {
-    writeL(1, "Tocca un bottone");
-    writeL(2, "per ricominciare");
-    while (B1_pressed || B2_pressed)
-        ;
+    PutCommand(DISPLAY_CLEAR);
+    writeL(1, "Vuoi rigiocare?");
+    writeL_replace(2, "<SI          NO>", findChars, replaceChars, 3);
+
+    int count = 0;
+    while (!(B1_pressed || B2_pressed)) {  // blink line
+        if (++count % 2 == 0)
+            writeL_replace(2, "<SI          NO>", findChars, replaceChars, 3);
+        else
+            clearL(2);
+
+        DelayMs(500);
+
+        if (B1_pressed) {
+            // seleziona 1v1, mostra il testo a Sx lampeggiante per indicare la selezione
+            writeL_replace(2, "<SI          NO>", findChars, replaceChars, 3);
+            writeBlinkL(2, 1, "SI", 2, 3, 200);
+            return 1;
+        } else if (B2_pressed) {
+            // seleziona COM, mostra testo lampeggiante a Dx
+            writeL_replace(2, "<SI          NO>", findChars, replaceChars, 3);
+            writeBlinkL(2, 13, "NO", 2, 3, 200);
+            return 0;
+        }
+    }
+
+    return 0;
+}
+void goodbye(void) {
+    int count = 1;
+    while (++count) {
+        PutCommand(DISPLAY_CLEAR);
+        writeL_replace(1, " :  A presto  : ", findChars, replaceChars, 3);
+        // print guns
+        PutCommand(LINE2_HOME);
+        writeC(_gun_calcioSx);
+        writeC(_gun_grillettoSx);
+        writeC(_gun_cannaSx);
+        writeToXY(13, 1, "");
+        writeC(_gun_cannaDx);
+        writeC(_gun_grillettoDx);
+        writeC(_gun_calcioDx);
+
+        shootAt(count % 2 + 1);
+        DelayMs(300);
+    }
 }
