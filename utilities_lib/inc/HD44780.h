@@ -8,6 +8,8 @@
 **		HD44780.h header file
 ** ###################################################################*/
 
+// clang-format off
+
 #ifndef __HD44780_H
 #define __HD44780_H
 /* MODULE HD44780 */
@@ -96,6 +98,18 @@ void Write_ndigitsval_space(unsigned int dummyVal, unsigned char ndigits);
 void Write_2digitsval(unsigned int dummyVal);
 void Write_HDval(unsigned int dummyVal);
 void Write_HDval2(unsigned int dummyVal);
+
+
+// # Custom
+void writeL(unsigned int L, unsigned char lineOfCharacters[LCD_LINE_LENGHT]);
+void writeL_replace(unsigned int L, unsigned char lineOfCharacters[LCD_LINE_LENGHT], unsigned char toChange[], unsigned char changeInto[], uint8_t changing_size);
+void writeBlinkL(unsigned int L, unsigned int cursor_initial_pos, unsigned char lineOfCharacters[LCD_LINE_LENGHT], unsigned int chars_num, unsigned int blink_n, int blink_time);
+unsigned int switchL(unsigned int L);
+unsigned int clearL(unsigned int L);
+void writeC(unsigned char symbol);
+unsigned int slideDisplay(char dir, unsigned int slide_time);
+unsigned int writeToXY(unsigned int x, unsigned int y, unsigned char lineOfCharacters[LCD_LINE_LENGHT]);
+
 
 /* END HD44780 */
 #endif /* __HD44780_H*/

@@ -8,6 +8,8 @@
 **		HD44780.h header file
 ** ###################################################################*/
 
+// clang-format off
+
 #ifndef __HD44780_H
 #define __HD44780_H
 /* MODULE HD44780 */
@@ -33,7 +35,7 @@
 #define ISTR 0	//write to instruction register
 #define DATA 1	//write to data register
 
-#define LCD_LINE_LENGTH 80
+#define LCD_LINE_LENGHT 80
 #define LCD_LINE_VISIBLE 16
 
 //++++  Display COMMANDS and INSTRUCTIONS (see tab. 6 HD44780 AppNote)  +++++++++++++++++++++++
@@ -89,17 +91,25 @@ void DisplayLeft(unsigned char nplaces);
 void DisplayRight(unsigned char nplaces);
 
 void WriteInitial(unsigned char LineOfCharacters[LCD_LINE_VISIBLE]);
-void WriteAfter(unsigned char LineOfCharacters[LCD_LINE_LENGTH]);
-void WriteAll(unsigned char lineOfCharacters[LCD_LINE_LENGTH]);
+void WriteAfter(unsigned char LineOfCharacters[LCD_LINE_LENGHT]);
+void WriteAll(unsigned char lineOfCharacters[LCD_LINE_LENGHT]);
 void Write_ndigitsval(unsigned int dummyVal, unsigned char ndigits);
 void Write_ndigitsval_space(unsigned int dummyVal, unsigned char ndigits);
 void Write_2digitsval(unsigned int dummyVal);
 void Write_HDval(unsigned int dummyVal);
 void Write_HDval2(unsigned int dummyVal);
+
+
 // # Custom
-unsigned int writeL(unsigned int L, unsigned char lineOfCharacters[LCD_LINE_VISIBLE]);
+void writeL(unsigned int L, unsigned char lineOfCharacters[LCD_LINE_LENGHT]);
+void writeL_replace(unsigned int L, unsigned char lineOfCharacters[LCD_LINE_LENGHT], unsigned char toChange[], unsigned char changeInto[], uint8_t changing_size);
+void writeBlinkL(unsigned int L, unsigned int cursor_initial_pos, unsigned char lineOfCharacters[LCD_LINE_LENGHT], unsigned int chars_num, unsigned int blink_n, int blink_time);
 unsigned int switchL(unsigned int L);
 unsigned int clearL(unsigned int L);
+void writeC(unsigned char symbol);
+unsigned int slideDisplay(char dir, unsigned int slide_time);
+unsigned int writeToXY(unsigned int x, unsigned int y, unsigned char lineOfCharacters[LCD_LINE_LENGHT]);
+
 
 /* END HD44780 */
 #endif /* __HD44780_H*/
