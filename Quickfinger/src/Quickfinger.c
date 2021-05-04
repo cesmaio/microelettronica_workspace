@@ -206,7 +206,7 @@ void showRules(void) {
     while (!(B1_pressed || B2_pressed))
         ;
 
-    writeL(1, "chi spara primo ");
+    writeL(1, "chi spara prima ");
     writeL(2, "ottiene +1 punto");
     DelayMs(1000);  // evita di continuare a prendere il bottone premuto
     while (!(B1_pressed || B2_pressed))
