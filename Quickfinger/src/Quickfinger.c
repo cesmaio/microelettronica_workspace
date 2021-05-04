@@ -49,7 +49,7 @@ unsigned char replaceChars[3] = {frecciaSx, frecciaDx, dot};
 // # Prototipi
 unsigned int setupLCD(unsigned int bit);                        // init LCD 2 lines 4 bit/8 bit
 void CharGen(unsigned char LineOfDots[8], unsigned char addr);  // genera carattere personalizzato e salva in memoria di LCD
-void intro();                                                   // mostra la schermata di intro del gioco
+int mainMenu(void);                                             // mostra il menu principale di gioco (ritorna la modalità di gioco selezionata)
 void showRules(void);                                           // mostra le regole
 unsigned int selectMode(void);                                  // seleziona modalità di gioco, 1 -> 1vs1 2 -> vsCOM
 unsigned int ready(unsigned int mode);                          // tutto pronto per giocare? 1 = si, 0 = no
@@ -75,33 +75,9 @@ int main(void) {
     CharGen(sparoDx, _sparoDx);
 
     do {
-        int seed = -1;  // seed per generare numeri random
-        int mode = 0;   // modalità di gioco
+        int mode = mainMenu();  // mostra il menu pricipale con le regole e la selezione della modalità di gioco
 
-        RGB_OFF
-        intro();  // mostra il messaggio di intro
-
-        // seeding (credits to Lorenzo Sabino)
-        int count = 0;
-        while (seed == -1) {  // aspetta che venga premuto un pulsante
-            DelayMs(1);
-            count++;
-            if (B1_pressed) {
-                B_ON
-                showRules();
-                B_OFF
-                intro();  // torna al messaggio di intro
-            } else if (B2_pressed) {
-                seed = count;  // salva seed
-                G_ON
-                    slideDisplay('l', 100);  // transizione verso la schermata di gioco (già stampata da intro())
-                G_OFF
-                mode = selectMode();  // 1 = 1vs1, 2 = vsCOM
-            }
-        }
-        srand(seed);  // seed rand
-
-        // led corrispondente alla modalità selezionata
+        // led corrispondente alla modalità di gioco selezionata
         if (mode == 1) {
             B_ON
         } else if (mode == 2) {
@@ -147,14 +123,60 @@ void CharGen(unsigned char LineOfDots[8], unsigned char addr) {  // uso più mem
     PutCommand(LINE1_HOME);
 }
 
-void intro(void) {
+int mainMenu(void) {
+    int seed = -1;  // seed per generare numeri random
+    int mode = 0;   // modalità di gioco
+
+    RGB_OFF
+
+    // messaggio di Intro
     PutCommand(DISPLAY_CLEAR);
-    writeL_replace(1, ": Quick Finger :---- GIOCA -----", findChars, replaceChars, 3);
-    writeL_replace(2, "<REGOLE   GIOCA><1vs1     vsCOM>", findChars, replaceChars, 3);
-    DelayMs(1000);
+    writeL_replace(1, ": Quick Finger :", findChars, replaceChars, 3);
+    writeL_replace(2, "<REGOLE   GIOCA>", findChars, replaceChars, 3);
+    DelayMs(1000);  // blocca input indesiderati (bottone premuto)
+
+    // seeding (credits to Lorenzo Sabino)
+    int count = 0;
+    while (seed == -1) {  // aspetta che venga premuto un pulsante
+
+        if (++count % 2 == 0)
+            writeL_replace(2, "<REGOLE   GIOCA>", findChars, replaceChars, 3);
+        else
+            clearL(2);
+
+        DelayMs(500);
+        if (B1_pressed) {
+            // blink 3
+            writeL_replace(2, "<REGOLE   GIOCA>", findChars, replaceChars, 3);
+            writeBlinkL(2, 1, "REGOLE", 6, 3, 200);
+
+            B_ON
+            showRules();
+            B_OFF
+
+            // torna al messaggio di Intro
+            PutCommand(DISPLAY_CLEAR);
+            writeL_replace(1, ": Quick Finger :", findChars, replaceChars, 3);
+            writeL_replace(2, "<REGOLE   GIOCA>", findChars, replaceChars, 3);
+        } else if (B2_pressed) {
+            seed = count;  // salva seed
+
+            // blink 3
+            writeL_replace(2, "<REGOLE   GIOCA>", findChars, replaceChars, 3);
+            writeBlinkL(2, 10, "GIOCA", 5, 3, 200);
+
+            G_ON
+                mode = selectMode();  // 1 = 1vs1, 2 = vsCOM
+            G_OFF
+        }
+    }
+    srand(seed);  // seed rand
+
+    return mode;
 }
 
 void showRules(void) {
+    PutCommand(DISPLAY_CLEAR);
     writeL_replace(1, "---- REGOLE ----: Quick Finger :", findChars, replaceChars, 3);
     writeL_replace(2, "Tocca un bottone<REGOLE   GIOCA>", findChars, replaceChars, 3);
     DisplayLeft(16);  // schermata principale
@@ -201,7 +223,16 @@ unsigned int selectMode(void) {
     unsigned int mode = 0;
 
     PutCommand(DISPLAY_CLEAR);
-    writeL(1, "---- GIOCA -----");
+    writeL_replace(1, ": Quick Finger :---- GIOCA -----", findChars, replaceChars, 3);
+    writeL_replace(2, "<REGOLE   GIOCA><1vs1     vsCOM>", findChars, replaceChars, 3);
+
+    slideDisplay('l', 100);  // transizione verso schermata di gioco
+
+    // ristampa la schermata di gioco a inizio linea
+    PutCommand(DISPLAY_CLEAR);
+    writeL_replace(1, "---- GIOCA -----", findChars, replaceChars, 3);
+    writeL_replace(2, "<1vs1     vsCOM>", findChars, replaceChars, 3);
+
     // aspetta che venga premuto un pulsante
     int count = 0;
     while (1) {  // blink line
