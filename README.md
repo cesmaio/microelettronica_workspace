@@ -1,5 +1,5 @@
 # Microelettronica Workspace
-> Workspace di [MCUXpresso IDE](https://www.nxp.com/design/software/development-software/mcuxpresso-software-and-tools-/mcuxpresso-integrated-development-environment-ide:MCUXpresso-IDE), utilizzato per la programmazione della [LPC845 Breakout Board](https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/lpc800-cortex-m0-plus-/lpc845-breakout-board-for-lpc84x-family-mcus:LPC845-BRK) a scopo didattico.
+> Workspace di [MCUXpresso IDE](https://www.nxp.com/design/software/development-software/mcuxpresso-software-and-tools-/mcuxpresso-integrated-development-environment-ide:MCUXpresso-IDE), utilizzato per la programmazione della [LPC845 Breakout Board](https://www.nxp.com/products/processors-and-microcontrollers/arm-microcontrollers/general-purpose-mcus/lpc800-cortex-m0-plus-/lpc845-breakout-board-for-lpc84x-family-mcus:LPC845-BRK) a scopo didattico nel corso di Microelettronica (Università di Roma Tre).
 
 # Autori e Copyright
 
