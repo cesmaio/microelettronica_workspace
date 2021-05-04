@@ -10,12 +10,13 @@
 
 #include <stdlib.h>
 
-#include "HD44780.h"
+#include "HD44780.h"  // con funzioni custom
 #include "LED.h"
 
 // # definizioni
 #define B1_pressed !(LPC_GPIO_PORT->PIN0 & (1 << 9))  // button 1 pin 18
 #define B2_pressed !(LPC_GPIO_PORT->PIN0 & (1 << 8))  // button 2 pin 19
+// caratteri da sostituire per LCD
 #define frecciaDx 0x7E
 #define frecciaSx 0x7F
 #define dot 0xA5
