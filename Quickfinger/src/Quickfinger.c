@@ -78,6 +78,7 @@ int main(void) {
         int seed = -1;  // seed per generare numeri random
         int mode = 0;   // modalità di gioco
 
+        RGB_OFF
         intro();  // mostra il messaggio di intro
 
         // seeding (credits to Lorenzo Sabino)
@@ -86,20 +87,31 @@ int main(void) {
             DelayMs(1);
             count++;
             if (B1_pressed) {
+                B_ON
                 showRules();
+                B_OFF
                 intro();  // torna al messaggio di intro
             } else if (B2_pressed) {
-                seed = count;            // salva seed
-                slideDisplay('l', 100);  // transizione verso la schermata di gioco (già stampata da intro())
-                mode = selectMode();     // 1 = 1vs1, 2 = vsCOM
+                seed = count;  // salva seed
+                G_ON
+                    slideDisplay('l', 100);  // transizione verso la schermata di gioco (già stampata da intro())
+                G_OFF
+                mode = selectMode();  // 1 = 1vs1, 2 = vsCOM
             }
         }
         srand(seed);  // seed rand
 
+        // led corrispondente alla modalità selezionata
+        if (mode == 1) {
+            B_ON
+        } else if (mode == 2) {
+            G_ON
+        }
+
         if (ready(mode))
             play(mode);  // loop principale
 
-        if (mode == 2) continue;
+        if (mode == 2) continue;  // vsCOM non ancora disponibile
     } while (playagain());
 
     goodbye();
@@ -273,7 +285,9 @@ unsigned int play(unsigned int mode) {
     unsigned int winning = 0;          // controlla chi ha vinto un punto 1 0 2
     unsigned int finished = 0;         // controlla se il gioco è finito, ha vinto 1 o 2
 
-    if (mode == 2) return 0;
+    RGB_OFF
+
+    if (mode == 2) return 0;  // modalità vsCOM non ancora disponibile
 
     // loop principale
     do {
@@ -377,7 +391,8 @@ unsigned int play(unsigned int mode) {
 
             winning = 0;
         } else {  // qualcuno ha barato
-            DelayMs(1000);
+            R_ON
+                DelayMs(1000);
 
             int cheat_count = 0;
             if (cheating == 1)
@@ -409,6 +424,7 @@ unsigned int play(unsigned int mode) {
             writeToXY(1, 0, "");
             Write_ndigitsval(cheating, 1);
 
+            R_OFF
             DelayMs(5000);
 
             cheating = 0;
@@ -418,8 +434,10 @@ unsigned int play(unsigned int mode) {
         // controlla se c'è un vincitore, il gioco è finito
         if (points_G1 == 3) {
             finished = 1;
+            B_ON
         } else if (points_G2 == 3) {
             finished = 2;
+            G_ON
         }
 
         // abbiamo un vincitore
@@ -441,6 +459,7 @@ unsigned int play(unsigned int mode) {
         }
 
     } while (playing);
+    RGB_OFF
 
     return 0;
 }
@@ -449,17 +468,21 @@ unsigned int shootAt(unsigned int player) {
     // spara al giocatore 1 0 2
     // animazione
     if (player == 1) {
-        // G2 spara
-        writeToXY(12, 1, "");
+        G_ON
+            // G2 spara
+            writeToXY(12, 1, "");
         writeC(_sparoDx);
         DelayMs(500);
         writeBlinkL(2, 0, gunSx, 3, 3, 300);
+        G_OFF
     } else if (player == 2) {
-        // G1 spara
-        writeToXY(3, 1, "");
+        B_ON
+            // G1 spara
+            writeToXY(3, 1, "");
         writeC(_sparoSx);
         DelayMs(500);
         writeBlinkL(2, 13, gunDx, 3, 3, 300);
+        B_OFF
     } else
         return 1;  // error
 
