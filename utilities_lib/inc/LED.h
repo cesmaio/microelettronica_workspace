@@ -1,15 +1,9 @@
 #ifndef __BLINK845_H
 #define __BLINK845_H
 
-// clang-format off
-
-#define R_ON {LPC_GPIO_PORT->CLR[1] = 1<<2;}//LED R on
-#define G_ON {LPC_GPIO_PORT->CLR[1] = 1<<0;} //LED G on
-#define B_ON {LPC_GPIO_PORT->CLR[1] = 1<<1;}//LED B on
 #define LED_R {LPC_GPIO_PORT->CLR[1] = 1<<2;}//LED R on
 #define LED_G {LPC_GPIO_PORT->CLR[1] = 1<<0;} //LED G on
 #define LED_B {LPC_GPIO_PORT->CLR[1] = 1<<1;}//LED B on
-
 #define R_OFF {LPC_GPIO_PORT->SET[1] = 1<<2;} //LED R off
 #define G_OFF {LPC_GPIO_PORT->SET[1] = 1<<0;}//LED G off
 #define B_OFF {LPC_GPIO_PORT->SET[1] = 1<<1;}//LED B off

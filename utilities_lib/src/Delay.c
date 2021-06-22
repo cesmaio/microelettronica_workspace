@@ -14,7 +14,7 @@ void DelayUs(uint16_t Us) {
 	// 3 decadi sono fatte da 10 bit
 	SysTick->VAL = 0xFFFFFF;
 	SysTick->CTRL |= 0x1; // Attivo Tick Counter Enable
-	while(!(SysTick->CTRL & 0x10000));
+	while(!(SysTick->CTRL & 0x10000)){ }
 	SysTick->CTRL ^= 0x1; // Disattivo Tick Counter Enable
 } // end of main
 

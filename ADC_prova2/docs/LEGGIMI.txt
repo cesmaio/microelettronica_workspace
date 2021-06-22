@@ -1,0 +1,38 @@
+${ProjName}:
+ADC_prova
+
+Obiettivo:
+* Dimostrativo per provare l'acquisizione da ADC0 
+  con START e EOC controllati via software.
+
+Descrizione:
+* Questo esempio mostra come configurare l'ADC assegnando il canale 0.
+  Il "trigger" dell'acquisizione è fatto via software.
+
+* Il valore di tensione in ingresso viene dal piedino centrale del trimmer
+  montato sulla scheda LPC845-BRK, connesso a PIO0.7.
+  Il valore di tensione è convertito in un numero tra 0 e 4095 (ADC a 12 bit) e
+  visulaizzato sull'LCD.
+
+* La configurazione dell'ADC prevede anche la procedura di auto-calibrazione.
+  PIO0.7 è configurato, con la SWM, per connettere ADC0.
+  Viene tolto ogni pull-up o pull-down (blocco IOCONF).
+
+* Il registro TRM è configurato per la tensione di alimentazione di 3.3 V 
+  che si ha sulla LPC845-BRK.
+  Il registro CLKDIV è configurato per un clock di 12 MHz (messo in una definizione).
+  
+* La sequenza di conversione è per via software.
+  Nel registro SEQA_CTRL viene scelto il canale 0 e viene abilitato.
+  
+* Non viene usato alcun interrupt.
+
+* Nel ciclo infinito while(1) viene lanciata la conversione (START bit nel 
+  registro SEQ_CTRL) e si attende la fine conversione per 256 volte (così da avere una 
+  visualizzazione più stabile).
+
+* Il valore medio a 12-bit è mostrato su LCD.
+
+Connessioni esterne:
+* LCD (come progetto LCD_test).
+* Il trimmer per variare la tensione di ingresso a ADC0 è già presente sulla scheda LPC845-BRK.
