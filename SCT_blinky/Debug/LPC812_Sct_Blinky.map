@@ -1,0 +1,320 @@
+Archive member included because of file (symbol)
+
+C:\localdata\LPC800_LPCXpresso\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+                              ./src/cr_startup_lpc8xx.o (SystemInit)
+c:/nxp/lpcxpresso_5.0.14_1109/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/../../../../arm-none-eabi/lib/armv6-m\libcr_c.a(__weak__main.o)
+                              ./src/cr_startup_lpc8xx.o (__main)
+c:/nxp/lpcxpresso_5.0.14_1109/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/armv6-m\libcr_eabihelpers.a(division.o)
+                              C:\localdata\LPC800_LPCXpresso\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o) (__aeabi_uidiv)
+
+Discarded input sections
+
+ .text          0x00000000        0x0 ./src/cr_startup_lpc8xx.o
+ .data          0x00000000        0x0 ./src/cr_startup_lpc8xx.o
+ .bss           0x00000000        0x0 ./src/cr_startup_lpc8xx.o
+ .text          0x00000000        0x0 ./src/crp.o
+ .data          0x00000000        0x0 ./src/crp.o
+ .bss           0x00000000        0x0 ./src/crp.o
+ .text          0x00000000        0x0 ./src/main.o
+ .data          0x00000000        0x0 ./src/main.o
+ .bss           0x00000000        0x0 ./src/main.o
+ .text          0x00000000        0x0 ./src/sct_fsm.o
+ .data          0x00000000        0x0 ./src/sct_fsm.o
+ .bss           0x00000000        0x0 ./src/sct_fsm.o
+ .text          0x00000000        0x0 ./src/swm.o
+ .data          0x00000000        0x0 ./src/swm.o
+ .bss           0x00000000        0x0 ./src/swm.o
+ .text          0x00000000        0x0 C:\localdata\LPC800_LPCXpresso\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+ .data          0x00000000        0x0 C:\localdata\LPC800_LPCXpresso\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+ .bss           0x00000000        0x0 C:\localdata\LPC800_LPCXpresso\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+ .text.SystemCoreClockUpdate
+                0x00000000       0x88 C:\localdata\LPC800_LPCXpresso\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+ .rodata.CSWTCH.6
+                0x00000000       0x3c C:\localdata\LPC800_LPCXpresso\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+ .data.SystemCoreClock
+                0x00000000        0x4 C:\localdata\LPC800_LPCXpresso\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+ .text          0x00000000        0x0 c:/nxp/lpcxpresso_5.0.14_1109/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/../../../../arm-none-eabi/lib/armv6-m\libcr_c.a(__weak__main.o)
+ .data          0x00000000        0x0 c:/nxp/lpcxpresso_5.0.14_1109/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/../../../../arm-none-eabi/lib/armv6-m\libcr_c.a(__weak__main.o)
+ .bss           0x00000000        0x0 c:/nxp/lpcxpresso_5.0.14_1109/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/../../../../arm-none-eabi/lib/armv6-m\libcr_c.a(__weak__main.o)
+ .text          0x00000000        0x0 c:/nxp/lpcxpresso_5.0.14_1109/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/armv6-m\libcr_eabihelpers.a(division.o)
+ .data          0x00000000        0x0 c:/nxp/lpcxpresso_5.0.14_1109/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/armv6-m\libcr_eabihelpers.a(division.o)
+ .bss           0x00000000        0x0 c:/nxp/lpcxpresso_5.0.14_1109/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/armv6-m\libcr_eabihelpers.a(division.o)
+ .text.__aeabi_division_idivmod
+                0x00000000        0x6 c:/nxp/lpcxpresso_5.0.14_1109/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/armv6-m\libcr_eabihelpers.a(division.o)
+ .text.__aeabi_division_uidivmod
+                0x00000000       0x72 c:/nxp/lpcxpresso_5.0.14_1109/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/armv6-m\libcr_eabihelpers.a(division.o)
+ .text.__aeabi_division_uldivmod
+                0x00000000       0x5a c:/nxp/lpcxpresso_5.0.14_1109/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/armv6-m\libcr_eabihelpers.a(division.o)
+ .text.__aeabi_division_ldivmod
+                0x00000000       0x32 c:/nxp/lpcxpresso_5.0.14_1109/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/armv6-m\libcr_eabihelpers.a(division.o)
+ .text.__aeabi_division_idiv0
+                0x00000000        0x2 c:/nxp/lpcxpresso_5.0.14_1109/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/armv6-m\libcr_eabihelpers.a(division.o)
+ .text.__aeabi_division_ldiv0
+                0x00000000        0x2 c:/nxp/lpcxpresso_5.0.14_1109/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/armv6-m\libcr_eabihelpers.a(division.o)
+ .text.__aeabi_division_idivq31+15
+                0x00000000      0x188 c:/nxp/lpcxpresso_5.0.14_1109/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/armv6-m\libcr_eabihelpers.a(division.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+MFlash16         0x00000000         0x00004000         xr
+RamLoc4          0x10000000         0x00001000         xrw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD ./src/cr_startup_lpc8xx.o
+LOAD ./src/crp.o
+LOAD ./src/main.o
+LOAD ./src/sct_fsm.o
+LOAD ./src/swm.o
+LOAD C:\localdata\LPC800_LPCXpresso\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a
+START GROUP
+LOAD c:/nxp/lpcxpresso_5.0.14_1109/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/../../../../arm-none-eabi/lib/armv6-m\libcr_c.a
+LOAD c:/nxp/lpcxpresso_5.0.14_1109/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/armv6-m\libcr_eabihelpers.a
+END GROUP
+                0x00004000                __top_MFlash16 = 0x4000
+                0x10001000                __top_RamLoc4 = 0x10001000
+
+.text           0x00000000      0x504
+ FILL mask 0xff
+ *(.isr_vector)
+ .isr_vector    0x00000000       0xc0 ./src/cr_startup_lpc8xx.o
+                0x00000000                g_pfnVectors
+                0x000000c0                . = ALIGN (0x4)
+                0x000000c0                __section_table_start = .
+                0x000000c0                __data_section_table = .
+                0x000000c0        0x4 LONG 0x504 LOADADDR (.data)
+                0x000000c4        0x4 LONG 0x10000000 ADDR (.data)
+                0x000000c8        0x4 LONG 0x0 SIZEOF (.data)
+                0x000000cc                __data_section_table_end = .
+                0x000000cc                __bss_section_table = .
+                0x000000cc        0x4 LONG 0x10000000 ADDR (.bss)
+                0x000000d0        0x4 LONG 0x4 SIZEOF (.bss)
+                0x000000d4                __bss_section_table_end = .
+                0x000000d4                __section_table_end = .
+ *(.after_vectors*)
+ .after_vectors
+                0x000000d4       0x80 ./src/cr_startup_lpc8xx.o
+                0x000000d4                NMI_Handler
+                0x000000d8                HardFault_Handler
+                0x000000dc                PendSV_Handler
+                0x000000e0                SysTick_Handler
+                0x000000e4                data_init
+                0x000000f6                bss_init
+                0x00000108                ResetISR
+                0x0000014c                SVCall_Handler
+                0x00000150                PININT1_IRQHandler
+                0x00000150                PININT2_IRQHandler
+                0x00000150                MRT_IRQHandler
+                0x00000150                UART1_IRQHandler
+                0x00000150                UART0_IRQHandler
+                0x00000150                WKT_IRQHandler
+                0x00000150                PININT7_IRQHandler
+                0x00000150                IntDefaultHandler
+                0x00000150                CMP_IRQHandler
+                0x00000150                PININT3_IRQHandler
+                0x00000150                UART2_IRQHandler
+                0x00000150                PININT5_IRQHandler
+                0x00000150                PININT4_IRQHandler
+                0x00000150                PININT0_IRQHandler
+                0x00000150                BOD_IRQHandler
+                0x00000150                SCT_IRQHandler
+                0x00000150                I2C_IRQHandler
+                0x00000150                WDT_IRQHandler
+                0x00000150                PININT6_IRQHandler
+                0x00000150                SPI0_IRQHandler
+                0x00000150                SPI1_IRQHandler
+                0x000002fc                . = 0x2fc
+ *fill*         0x00000154      0x1a8 ff
+                0x000002fc                PROVIDE (__CRP_WORD_START__, .)
+ *(.crp)
+ .crp           0x000002fc        0x4 ./src/crp.o
+                0x000002fc                CRP_WORD
+                0x00000300                PROVIDE (__CRP_WORD_END__, .)
+                0x00000001                ASSERT (! ((__CRP_WORD_START__ == __CRP_WORD_END__)), Linker CRP Enabled, but no CRP_WORD provided within application)
+ *(.text*)
+ .text.main     0x00000300       0x64 ./src/main.o
+                0x00000300                main
+ .text.sct_fsm_init
+                0x00000364      0x124 ./src/sct_fsm.o
+                0x00000364                sct_fsm_init
+ .text.SwitchMatrix_Init
+                0x00000488       0x18 ./src/swm.o
+                0x00000488                SwitchMatrix_Init
+ .text.SystemInit
+                0x000004a0       0x5c C:\localdata\LPC800_LPCXpresso\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+                0x000004a0                SystemInit
+ .text.__weak_main
+                0x000004fc        0x8 c:/nxp/lpcxpresso_5.0.14_1109/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/../../../../arm-none-eabi/lib/armv6-m\libcr_c.a(__weak__main.o)
+                0x000004fc                __weak_main
+                0x000004fc                __main
+ *(.rodata .rodata.*)
+                0x00000504                . = ALIGN (0x4)
+
+.glue_7         0x00000504        0x0
+ .glue_7        0x00000000        0x0 linker stubs
+
+.glue_7t        0x00000504        0x0
+ .glue_7t       0x00000000        0x0 linker stubs
+
+.vfp11_veneer   0x00000504        0x0
+ .vfp11_veneer  0x00000000        0x0 linker stubs
+
+.v4_bx          0x00000504        0x0
+ .v4_bx         0x00000000        0x0 linker stubs
+
+.ARM.extab
+ *(.ARM.extab* .gnu.linkonce.armextab.*)
+                0x00000504                __exidx_start = .
+
+.ARM.exidx
+ *(.ARM.exidx* .gnu.linkonce.armexidx.*)
+                0x00000504                __exidx_end = .
+                0x00000504                _etext = .
+
+.uninit_RESERVED
+                0x10000000        0x0
+ *(.bss.$RESERVED*)
+                0x10000000                . = ALIGN (0x4)
+                0x10000000                _end_uninit_RESERVED = .
+
+.data           0x10000000        0x0 load address 0x00000504
+ FILL mask 0xff
+                0x10000000                _data = .
+ *(vtable)
+ *(.data*)
+                0x10000000                . = ALIGN (0x4)
+                0x10000000                _edata = .
+
+.bss            0x10000000        0x4 load address 0x00000504
+                0x10000000                _bss = .
+ *(.bss*)
+ .bss.i.4223    0x10000000        0x4 ./src/main.o
+ *(COMMON)
+                0x10000004                . = ALIGN (0x4)
+                0x10000004                _ebss = .
+                0x10000004                PROVIDE (end, .)
+
+.noinit         0x10000004        0x0 load address 0x00000504
+                0x10000004                _noinit = .
+ *(.noinit*)
+                0x10000004                . = ALIGN (0x4)
+                0x10000004                _end_noinit = .
+                0x10000004                PROVIDE (_pvHeapStart, .)
+                0x10001000                PROVIDE (_vStackTop, (__top_RamLoc4 - 0x0))
+OUTPUT(LPC812_Sct_Blinky.axf elf32-littlearm)
+
+.debug_info     0x00000000     0x1b7a
+ .debug_info    0x00000000      0x291 ./src/cr_startup_lpc8xx.o
+ .debug_info    0x00000291       0x48 ./src/crp.o
+ .debug_info    0x000002d9      0xb8c ./src/main.o
+ .debug_info    0x00000e65      0x6d3 ./src/sct_fsm.o
+ .debug_info    0x00001538      0x1ae ./src/swm.o
+ .debug_info    0x000016e6      0x494 C:\localdata\LPC800_LPCXpresso\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+
+.debug_abbrev   0x00000000      0x4ee
+ .debug_abbrev  0x00000000       0xf0 ./src/cr_startup_lpc8xx.o
+ .debug_abbrev  0x000000f0       0x39 ./src/crp.o
+ .debug_abbrev  0x00000129      0x128 ./src/main.o
+ .debug_abbrev  0x00000251       0xec ./src/sct_fsm.o
+ .debug_abbrev  0x0000033d       0xce ./src/swm.o
+ .debug_abbrev  0x0000040b       0xe3 C:\localdata\LPC800_LPCXpresso\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+
+.debug_loc      0x00000000      0x372
+ .debug_loc     0x00000000      0x28f ./src/cr_startup_lpc8xx.o
+ .debug_loc     0x0000028f       0x2c ./src/main.o
+ .debug_loc     0x000002bb       0x2c ./src/sct_fsm.o
+ .debug_loc     0x000002e7       0x2c ./src/swm.o
+ .debug_loc     0x00000313       0x5f C:\localdata\LPC800_LPCXpresso\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+
+.debug_aranges  0x00000000       0xe8
+ .debug_aranges
+                0x00000000       0x60 ./src/cr_startup_lpc8xx.o
+ .debug_aranges
+                0x00000060       0x20 ./src/main.o
+ .debug_aranges
+                0x00000080       0x20 ./src/sct_fsm.o
+ .debug_aranges
+                0x000000a0       0x20 ./src/swm.o
+ .debug_aranges
+                0x000000c0       0x28 C:\localdata\LPC800_LPCXpresso\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+
+.debug_ranges   0x00000000       0x98
+ .debug_ranges  0x00000000       0x50 ./src/cr_startup_lpc8xx.o
+ .debug_ranges  0x00000050       0x10 ./src/main.o
+ .debug_ranges  0x00000060       0x10 ./src/sct_fsm.o
+ .debug_ranges  0x00000070       0x10 ./src/swm.o
+ .debug_ranges  0x00000080       0x18 C:\localdata\LPC800_LPCXpresso\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+
+.debug_line     0x00000000     0x1466
+ .debug_line    0x00000000      0x400 ./src/cr_startup_lpc8xx.o
+ .debug_line    0x00000400       0xae ./src/crp.o
+ .debug_line    0x000004ae      0x465 ./src/main.o
+ .debug_line    0x00000913      0x3cf ./src/sct_fsm.o
+ .debug_line    0x00000ce2      0x399 ./src/swm.o
+ .debug_line    0x0000107b      0x3eb C:\localdata\LPC800_LPCXpresso\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+
+.debug_macinfo  0x00000000    0x1cf56
+ .debug_macinfo
+                0x00000000     0x5463 ./src/cr_startup_lpc8xx.o
+ .debug_macinfo
+                0x00005463     0x22fb ./src/crp.o
+ .debug_macinfo
+                0x0000775e     0x587a ./src/main.o
+ .debug_macinfo
+                0x0000cfd8     0x54c0 ./src/sct_fsm.o
+ .debug_macinfo
+                0x00012498     0x5402 ./src/swm.o
+ .debug_macinfo
+                0x0001789a     0x56bc C:\localdata\LPC800_LPCXpresso\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+
+.debug_str      0x00000000      0x786
+ .debug_str     0x00000000      0x209 ./src/cr_startup_lpc8xx.o
+                                0x231 (size before relaxing)
+ .debug_str     0x00000209       0x16 ./src/crp.o
+                                 0xa3 (size before relaxing)
+ .debug_str     0x0000021f      0x41b ./src/main.o
+                                0x527 (size before relaxing)
+ .debug_str     0x0000063a       0x1e ./src/sct_fsm.o
+                                0x2e3 (size before relaxing)
+ .debug_str     0x00000658       0xa7 ./src/swm.o
+                                0x1b3 (size before relaxing)
+ .debug_str     0x000006ff       0x87 C:\localdata\LPC800_LPCXpresso\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+                                0x365 (size before relaxing)
+
+.comment        0x00000000       0x70
+ .comment       0x00000000       0x70 ./src/cr_startup_lpc8xx.o
+                                 0x71 (size before relaxing)
+ .comment       0x00000000       0x71 ./src/crp.o
+ .comment       0x00000000       0x71 ./src/main.o
+ .comment       0x00000000       0x71 ./src/sct_fsm.o
+ .comment       0x00000000       0x71 ./src/swm.o
+ .comment       0x00000000       0x71 C:\localdata\LPC800_LPCXpresso\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+ .comment       0x00000000       0x71 c:/nxp/lpcxpresso_5.0.14_1109/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/../../../../arm-none-eabi/lib/armv6-m\libcr_c.a(__weak__main.o)
+
+.ARM.attributes
+                0x00000000       0x2f
+ .ARM.attributes
+                0x00000000       0x31 ./src/cr_startup_lpc8xx.o
+ .ARM.attributes
+                0x00000031       0x31 ./src/crp.o
+ .ARM.attributes
+                0x00000062       0x31 ./src/main.o
+ .ARM.attributes
+                0x00000093       0x31 ./src/sct_fsm.o
+ .ARM.attributes
+                0x000000c4       0x31 ./src/swm.o
+ .ARM.attributes
+                0x000000f5       0x31 C:\localdata\LPC800_LPCXpresso\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+ .ARM.attributes
+                0x00000126       0x31 c:/nxp/lpcxpresso_5.0.14_1109/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/../../../../arm-none-eabi/lib/armv6-m\libcr_c.a(__weak__main.o)
+ .ARM.attributes
+                0x00000157       0x21 c:/nxp/lpcxpresso_5.0.14_1109/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/armv6-m\libcr_eabihelpers.a(division.o)
+
+.debug_frame    0x00000000      0x1b4
+ .debug_frame   0x00000000       0xec ./src/cr_startup_lpc8xx.o
+ .debug_frame   0x000000ec       0x2c ./src/main.o
+ .debug_frame   0x00000118       0x2c ./src/sct_fsm.o
+ .debug_frame   0x00000144       0x2c ./src/swm.o
+ .debug_frame   0x00000170       0x44 C:\localdata\LPC800_LPCXpresso\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)

@@ -1,0 +1,13 @@
+core_cm0plus.h:733:22:__NVIC_EnableIRQ	16	static
+fsl_clock.h:483:20:CLOCK_Select	16	static
+fsl_gpio.h:199:20:GPIO_PortSet	24	static
+fsl_gpio.h:220:20:GPIO_PortClear	24	static
+fsl_capt.h:290:20:CAPT_SetThreshold	16	static
+fsl_capt.h:326:20:CAPT_EnableInterrupts	16	static
+fsl_capt.h:348:24:CAPT_GetInterruptStatusFlags	16	static
+fsl_capt.h:359:20:CAPT_ClearInterruptStatusFlags	16	static
+fsl_capt.h:371:24:CAPT_GetStatusFlags	16	static
+fsl_power.h:106:20:POWER_DisablePD	16	static
+LPC845_BoB_CAPTouch.c:87:6:CMP_CAPT_DriverIRQHandler	16	static
+LPC845_BoB_CAPTouch.c:106:5:main	40	static
+LPC845_BoB_CAPTouch.c:163:17:CAPT_DoCalibration	112	static

@@ -1,0 +1,6 @@
+fsl_clock.h:483:20:CLOCK_Select	16	static
+fsl_clock.h:515:20:CLOCK_SetCoreSysClkDiv	16	static
+fsl_clock.h:707:20:CLOCK_SetFroOscFreq	16	static
+fsl_power.h:106:20:POWER_DisablePD	16	static
+clock_config.c:37:6:BOARD_InitBootClocks	8	static
+clock_config.c:66:6:BOARD_BootClockRUN	16	static

@@ -1,0 +1,307 @@
+Archive member included because of file (symbol)
+
+C:\SCT Cookbook code examples\LPCXpresso\SCT_blinky_match\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+                              ./src/main.o (SystemCoreClockUpdate)
+c:/nxp/lpcxpresso_5.2.6/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/../../../../arm-none-eabi/lib/armv6-m\libcr_c.a(__weak__main.o)
+                              ./src/cr_startup_lpc8xx.o (__main)
+c:/nxp/lpcxpresso_5.2.6/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/armv6-m\libcr_eabihelpers.a(division.o)
+                              ./src/sct_fsm.o (__aeabi_uidiv)
+
+Discarded input sections
+
+ .text          0x00000000        0x0 ./src/cr_startup_lpc8xx.o
+ .data          0x00000000        0x0 ./src/cr_startup_lpc8xx.o
+ .bss           0x00000000        0x0 ./src/cr_startup_lpc8xx.o
+ .text          0x00000000        0x0 ./src/main.o
+ .data          0x00000000        0x0 ./src/main.o
+ .bss           0x00000000        0x0 ./src/main.o
+ .text          0x00000000        0x0 ./src/sct_fsm.o
+ .data          0x00000000        0x0 ./src/sct_fsm.o
+ .bss           0x00000000        0x0 ./src/sct_fsm.o
+ .text          0x00000000        0x0 ./src/swm.o
+ .data          0x00000000        0x0 ./src/swm.o
+ .bss           0x00000000        0x0 ./src/swm.o
+ .text          0x00000000        0x0 C:\SCT Cookbook code examples\LPCXpresso\SCT_blinky_match\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+ .data          0x00000000        0x0 C:\SCT Cookbook code examples\LPCXpresso\SCT_blinky_match\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+ .bss           0x00000000        0x0 C:\SCT Cookbook code examples\LPCXpresso\SCT_blinky_match\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+ .text          0x00000000        0x0 c:/nxp/lpcxpresso_5.2.6/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/../../../../arm-none-eabi/lib/armv6-m\libcr_c.a(__weak__main.o)
+ .data          0x00000000        0x0 c:/nxp/lpcxpresso_5.2.6/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/../../../../arm-none-eabi/lib/armv6-m\libcr_c.a(__weak__main.o)
+ .bss           0x00000000        0x0 c:/nxp/lpcxpresso_5.2.6/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/../../../../arm-none-eabi/lib/armv6-m\libcr_c.a(__weak__main.o)
+ .text          0x00000000        0x0 c:/nxp/lpcxpresso_5.2.6/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/armv6-m\libcr_eabihelpers.a(division.o)
+ .data          0x00000000        0x0 c:/nxp/lpcxpresso_5.2.6/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/armv6-m\libcr_eabihelpers.a(division.o)
+ .bss           0x00000000        0x0 c:/nxp/lpcxpresso_5.2.6/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/armv6-m\libcr_eabihelpers.a(division.o)
+ .text.__aeabi_division_idivmod
+                0x00000000        0x6 c:/nxp/lpcxpresso_5.2.6/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/armv6-m\libcr_eabihelpers.a(division.o)
+ .text.__aeabi_division_uldivmod
+                0x00000000       0x5a c:/nxp/lpcxpresso_5.2.6/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/armv6-m\libcr_eabihelpers.a(division.o)
+ .text.__aeabi_division_ldivmod
+                0x00000000       0x32 c:/nxp/lpcxpresso_5.2.6/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/armv6-m\libcr_eabihelpers.a(division.o)
+ .text.__aeabi_division_ldiv0
+                0x00000000        0x2 c:/nxp/lpcxpresso_5.2.6/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/armv6-m\libcr_eabihelpers.a(division.o)
+ .text.__aeabi_division_idivq31+15
+                0x00000000      0x188 c:/nxp/lpcxpresso_5.2.6/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/armv6-m\libcr_eabihelpers.a(division.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+MFlash16         0x00000000         0x00004000         xr
+RamLoc4          0x10000000         0x00001000         xrw
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+LOAD ./src/cr_startup_lpc8xx.o
+LOAD ./src/main.o
+LOAD ./src/sct_fsm.o
+LOAD ./src/swm.o
+LOAD C:\SCT Cookbook code examples\LPCXpresso\SCT_blinky_match\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a
+START GROUP
+LOAD c:/nxp/lpcxpresso_5.2.6/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/../../../../arm-none-eabi/lib/armv6-m\libcr_c.a
+LOAD c:/nxp/lpcxpresso_5.2.6/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/armv6-m\libcr_eabihelpers.a
+END GROUP
+                0x00004000                __top_MFlash16 = 0x4000
+                0x10001000                __top_RamLoc4 = 0x10001000
+
+.text           0x00000000      0x458
+ FILL mask 0xff
+                0x00000000                __vectors_start__ = ABSOLUTE (.)
+ *(.isr_vector)
+ .isr_vector    0x00000000       0xc0 ./src/cr_startup_lpc8xx.o
+                0x00000000                g_pfnVectors
+                0x000000c0                . = ALIGN (0x4)
+                0x000000c0                __section_table_start = .
+                0x000000c0                __data_section_table = .
+                0x000000c0        0x4 LONG 0x458 LOADADDR (.data)
+                0x000000c4        0x4 LONG 0x10000000 ADDR (.data)
+                0x000000c8        0x4 LONG 0x4 SIZEOF (.data)
+                0x000000cc                __data_section_table_end = .
+                0x000000cc                __bss_section_table = .
+                0x000000cc        0x4 LONG 0x10000004 ADDR (.bss)
+                0x000000d0        0x4 LONG 0x4 SIZEOF (.bss)
+                0x000000d4                __bss_section_table_end = .
+                0x000000d4                __section_table_end = .
+ *(.after_vectors*)
+ .after_vectors
+                0x000000d4       0x80 ./src/cr_startup_lpc8xx.o
+                0x000000d4                NMI_Handler
+                0x000000d8                HardFault_Handler
+                0x000000dc                PendSV_Handler
+                0x000000e0                SysTick_Handler
+                0x000000e4                data_init
+                0x000000f6                bss_init
+                0x00000108                ResetISR
+                0x0000014c                SVCall_Handler
+                0x00000150                PININT1_IRQHandler
+                0x00000150                PININT2_IRQHandler
+                0x00000150                MRT_IRQHandler
+                0x00000150                UART1_IRQHandler
+                0x00000150                UART0_IRQHandler
+                0x00000150                WKT_IRQHandler
+                0x00000150                PININT7_IRQHandler
+                0x00000150                IntDefaultHandler
+                0x00000150                CMP_IRQHandler
+                0x00000150                PININT3_IRQHandler
+                0x00000150                UART2_IRQHandler
+                0x00000150                PININT5_IRQHandler
+                0x00000150                PININT4_IRQHandler
+                0x00000150                PININT0_IRQHandler
+                0x00000150                BOD_IRQHandler
+                0x00000150                SCT_IRQHandler
+                0x00000150                I2C_IRQHandler
+                0x00000150                WDT_IRQHandler
+                0x00000150                PININT6_IRQHandler
+                0x00000150                SPI0_IRQHandler
+                0x00000150                SPI1_IRQHandler
+ *(.text*)
+ .text.main     0x00000154       0x58 ./src/main.o
+                0x00000154                main
+ .text.sct_fsm_init
+                0x000001ac      0x140 ./src/sct_fsm.o
+                0x000001ac                sct_fsm_init
+ .text.SwitchMatrix_Init
+                0x000002ec       0x18 ./src/swm.o
+                0x000002ec                SwitchMatrix_Init
+ .text.SystemCoreClockUpdate
+                0x00000304       0x88 C:\SCT Cookbook code examples\LPCXpresso\SCT_blinky_match\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+                0x00000304                SystemCoreClockUpdate
+ .text.SystemInit
+                0x0000038c       0x14 C:\SCT Cookbook code examples\LPCXpresso\SCT_blinky_match\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+                0x0000038c                SystemInit
+ .text.__weak_main
+                0x000003a0        0x8 c:/nxp/lpcxpresso_5.2.6/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/../../../../arm-none-eabi/lib/armv6-m\libcr_c.a(__weak__main.o)
+                0x000003a0                __weak_main
+                0x000003a0                __main
+ .text.__aeabi_division_uidivmod
+                0x000003a8       0x72 c:/nxp/lpcxpresso_5.2.6/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/armv6-m\libcr_eabihelpers.a(division.o)
+                0x000003a8                __aeabi_uidivmod
+                0x000003a8                __aeabi_uidiv
+ .text.__aeabi_division_idiv0
+                0x0000041a        0x2 c:/nxp/lpcxpresso_5.2.6/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/armv6-m\libcr_eabihelpers.a(division.o)
+                0x0000041a                __aeabi_idiv0
+ *(.rodata .rodata.*)
+ .rodata.CSWTCH.6
+                0x0000041c       0x3c C:\SCT Cookbook code examples\LPCXpresso\SCT_blinky_match\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+                0x00000458                . = ALIGN (0x4)
+
+.glue_7         0x00000458        0x0
+ .glue_7        0x00000000        0x0 linker stubs
+
+.glue_7t        0x00000458        0x0
+ .glue_7t       0x00000000        0x0 linker stubs
+
+.vfp11_veneer   0x00000458        0x0
+ .vfp11_veneer  0x00000000        0x0 linker stubs
+
+.v4_bx          0x00000458        0x0
+ .v4_bx         0x00000000        0x0 linker stubs
+
+.ARM.extab
+ *(.ARM.extab* .gnu.linkonce.armextab.*)
+                0x00000458                __exidx_start = .
+
+.ARM.exidx
+ *(.ARM.exidx* .gnu.linkonce.armexidx.*)
+                0x00000458                __exidx_end = .
+                0x00000458                _etext = .
+
+.mtb_buffer_default
+ *(.mtb*)
+
+.uninit_RESERVED
+                0x10000000        0x0
+ *(.bss.$RESERVED*)
+                0x10000000                . = ALIGN (0x4)
+                0x10000000                _end_uninit_RESERVED = .
+
+.data           0x10000000        0x4 load address 0x00000458
+ FILL mask 0xff
+                0x10000000                _data = .
+ *(vtable)
+ *(.data*)
+ .data.SystemCoreClock
+                0x10000000        0x4 C:\SCT Cookbook code examples\LPCXpresso\SCT_blinky_match\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+                0x10000000                SystemCoreClock
+                0x10000004                . = ALIGN (0x4)
+                0x10000004                _edata = .
+
+.bss            0x10000004        0x4 load address 0x0000045c
+                0x10000004                _bss = .
+ *(.bss*)
+ .bss.i.4223    0x10000004        0x4 ./src/main.o
+ *(COMMON)
+                0x10000008                . = ALIGN (0x4)
+                0x10000008                _ebss = .
+                0x10000008                PROVIDE (end, .)
+
+.noinit         0x10000008        0x0 load address 0x0000045c
+                0x10000008                _noinit = .
+ *(.noinit*)
+                0x10000008                . = ALIGN (0x4)
+                0x10000008                _end_noinit = .
+                0x10000008                PROVIDE (_pvHeapStart, .)
+                0x10001000                PROVIDE (_vStackTop, (__top_RamLoc4 - 0x0))
+OUTPUT(SCT_blinky.axf elf32-littlearm)
+
+.debug_info     0x00000000     0x1a2d
+ .debug_info    0x00000000      0x291 ./src/cr_startup_lpc8xx.o
+ .debug_info    0x00000291      0xa6e ./src/main.o
+ .debug_info    0x00000cff      0x6ed ./src/sct_fsm.o
+ .debug_info    0x000013ec      0x1ae ./src/swm.o
+ .debug_info    0x0000159a      0x493 C:\SCT Cookbook code examples\LPCXpresso\SCT_blinky_match\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+
+.debug_abbrev   0x00000000      0x4b9
+ .debug_abbrev  0x00000000       0xf0 ./src/cr_startup_lpc8xx.o
+ .debug_abbrev  0x000000f0      0x11b ./src/main.o
+ .debug_abbrev  0x0000020b       0xfd ./src/sct_fsm.o
+ .debug_abbrev  0x00000308       0xce ./src/swm.o
+ .debug_abbrev  0x000003d6       0xe3 C:\SCT Cookbook code examples\LPCXpresso\SCT_blinky_match\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+
+.debug_loc      0x00000000      0x352
+ .debug_loc     0x00000000      0x28f ./src/cr_startup_lpc8xx.o
+ .debug_loc     0x0000028f       0x2c ./src/main.o
+ .debug_loc     0x000002bb       0x2c ./src/sct_fsm.o
+ .debug_loc     0x000002e7       0x2c ./src/swm.o
+ .debug_loc     0x00000313       0x3f C:\SCT Cookbook code examples\LPCXpresso\SCT_blinky_match\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+
+.debug_aranges  0x00000000       0xe8
+ .debug_aranges
+                0x00000000       0x60 ./src/cr_startup_lpc8xx.o
+ .debug_aranges
+                0x00000060       0x20 ./src/main.o
+ .debug_aranges
+                0x00000080       0x20 ./src/sct_fsm.o
+ .debug_aranges
+                0x000000a0       0x20 ./src/swm.o
+ .debug_aranges
+                0x000000c0       0x28 C:\SCT Cookbook code examples\LPCXpresso\SCT_blinky_match\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+
+.debug_ranges   0x00000000       0x98
+ .debug_ranges  0x00000000       0x50 ./src/cr_startup_lpc8xx.o
+ .debug_ranges  0x00000050       0x10 ./src/main.o
+ .debug_ranges  0x00000060       0x10 ./src/sct_fsm.o
+ .debug_ranges  0x00000070       0x10 ./src/swm.o
+ .debug_ranges  0x00000080       0x18 C:\SCT Cookbook code examples\LPCXpresso\SCT_blinky_match\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+
+.debug_line     0x00000000     0x12f4
+ .debug_line    0x00000000      0x3fd ./src/cr_startup_lpc8xx.o
+ .debug_line    0x000003fd      0x3c7 ./src/main.o
+ .debug_line    0x000007c4      0x3cc ./src/sct_fsm.o
+ .debug_line    0x00000b90      0x394 ./src/swm.o
+ .debug_line    0x00000f24      0x3d0 C:\SCT Cookbook code examples\LPCXpresso\SCT_blinky_match\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+
+.debug_macinfo  0x00000000    0x1a8ea
+ .debug_macinfo
+                0x00000000     0x5463 ./src/cr_startup_lpc8xx.o
+ .debug_macinfo
+                0x00005463     0x553f ./src/main.o
+ .debug_macinfo
+                0x0000a9a2     0x553b ./src/sct_fsm.o
+ .debug_macinfo
+                0x0000fedd     0x5402 ./src/swm.o
+ .debug_macinfo
+                0x000152df     0x560b C:\SCT Cookbook code examples\LPCXpresso\SCT_blinky_match\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+
+.debug_str      0x00000000      0x6fe
+ .debug_str     0x00000000      0x21d ./src/cr_startup_lpc8xx.o
+                                0x245 (size before relaxing)
+ .debug_str     0x0000021d      0x37a ./src/main.o
+                                0x49a (size before relaxing)
+ .debug_str     0x00000597       0x2e ./src/sct_fsm.o
+                                0x307 (size before relaxing)
+ .debug_str     0x000005c5       0xa7 ./src/swm.o
+                                0x1c7 (size before relaxing)
+ .debug_str     0x0000066c       0x92 C:\SCT Cookbook code examples\LPCXpresso\SCT_blinky_match\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+                                0x380 (size before relaxing)
+
+.comment        0x00000000       0x70
+ .comment       0x00000000       0x70 ./src/cr_startup_lpc8xx.o
+                                 0x71 (size before relaxing)
+ .comment       0x00000000       0x71 ./src/main.o
+ .comment       0x00000000       0x71 ./src/sct_fsm.o
+ .comment       0x00000000       0x71 ./src/swm.o
+ .comment       0x00000000       0x71 C:\SCT Cookbook code examples\LPCXpresso\SCT_blinky_match\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+ .comment       0x00000000       0x71 c:/nxp/lpcxpresso_5.2.6/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/../../../../arm-none-eabi/lib/armv6-m\libcr_c.a(__weak__main.o)
+
+.ARM.attributes
+                0x00000000       0x2f
+ .ARM.attributes
+                0x00000000       0x31 ./src/cr_startup_lpc8xx.o
+ .ARM.attributes
+                0x00000031       0x31 ./src/main.o
+ .ARM.attributes
+                0x00000062       0x31 ./src/sct_fsm.o
+ .ARM.attributes
+                0x00000093       0x31 ./src/swm.o
+ .ARM.attributes
+                0x000000c4       0x31 C:\SCT Cookbook code examples\LPCXpresso\SCT_blinky_match\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)
+ .ARM.attributes
+                0x000000f5       0x31 c:/nxp/lpcxpresso_5.2.6/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/../../../../arm-none-eabi/lib/armv6-m\libcr_c.a(__weak__main.o)
+ .ARM.attributes
+                0x00000126       0x21 c:/nxp/lpcxpresso_5.2.6/lpcxpresso/tools/bin/../lib/gcc/arm-none-eabi/4.6.2/armv6-m\libcr_eabihelpers.a(division.o)
+
+.debug_frame    0x00000000      0x1b0
+ .debug_frame   0x00000000       0xec ./src/cr_startup_lpc8xx.o
+ .debug_frame   0x000000ec       0x2c ./src/main.o
+ .debug_frame   0x00000118       0x30 ./src/sct_fsm.o
+ .debug_frame   0x00000148       0x2c ./src/swm.o
+ .debug_frame   0x00000174       0x3c C:\SCT Cookbook code examples\LPCXpresso\SCT_blinky_match\CMSIS_CORE_LPC8xx\Debug\libCMSIS_CORE_LPC8xx.a(system_LPC8xx.o)

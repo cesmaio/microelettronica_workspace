@@ -1,0 +1,2 @@
+fsl_clock.h:483:20:CLOCK_Select	16	static
+board.c:46:10:BOARD_InitDebugConsole	16	static
