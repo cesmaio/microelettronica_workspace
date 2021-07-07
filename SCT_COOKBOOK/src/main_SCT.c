@@ -29,7 +29,9 @@ extern volatile uint8_t ev0_handshake, /*ev1_handshake,*/ interrupt_counter;
 
 // Main da modificare a seconda della funzione di Init da implementare
 int main(void) {
+   LPC_SYSCON->SYSAHBCLKCTRL0 |= 1 << 20;  //abilito il GPIO1
    ACT_R
+
    // Enable clocks to relevant peripherals: SWM e SCT
    LPC_SYSCON->SYSAHBCLKCTRL0 |= (1 << 7) | (1 << 8);
    // configure the SWM to output CTOUT_0 to PIO0_7 //
@@ -38,8 +40,8 @@ int main(void) {
    LPC_SYSCON->PRESETCTRL[0] &= ~(1 << 8);  //Assert the SCT reset
    LPC_SYSCON->PRESETCTRL[0] |= (1 << 8);   //Clear the SCT reset
 
-   void SCT_Init2(void);          // ## Initialize the SCT
-   LPC_SCT->CTRL_L &= ~(1 << 2);  // Unhalt the SCT by clearing bit 2 of the CTRL register //
+   void SCT_Init1(void);          // ## Initialize the SCT
+   LPC_SCT->CTRL_L &= ~(1 << 2);  // unhalt the SCT by clearing bit 2 of the CTRL register //
 
    // Enter an infinite loop, just incrementing a counter //
    volatile static int i = 0;
@@ -55,10 +57,13 @@ void SCT_Init1(void)  //repetitive IRQ
    LPC_SCT->CONFIG = (1 << 0) | (1 << 17);  // unified 32-bit timer, auto limit
    LPC_SCT->MATCH[0].U = SCC / 100;         // match 0 @ 100 Hz = 10 msec
    LPC_SCT->MATCHREL[0].U = SCC / 100;      // match 0 @ 100 Hz = 10 msec
-   LPC_SCT->EVENT[0].STATE = 0xFF;          // event 0 happens in all states
-   LPC_SCT->EVENT[0].CTRL = (1 << 12);      // match 0 condition only
-   LPC_SCT->EVEN = (1 << 0);                // event 0 generates an interrupt
-   NVIC_EnableIRQ(SCT_IRQn);                // enable SCTimer/PWM interrupt
+
+   LPC_SCT->EVENT[0].STATE = 0xFFFFFFFF;  // event 0 happens in all states
+   LPC_SCT->EVENT[0].CTRL = (1 << 12);    // match 0 condition only
+
+   LPC_SCT->EVEN = (1 << 0);  // event 0 generates an interrupt
+
+   NVIC_EnableIRQ(SCT_IRQn);  // enable SCTimer/PWM interrupt
 }
 
 void SCT_Init2(void)  // Blinky Match
