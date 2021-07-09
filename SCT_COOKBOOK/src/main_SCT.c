@@ -29,27 +29,33 @@ extern volatile uint8_t ev0_handshake, /*ev1_handshake,*/ interrupt_counter;
 
 // Main da modificare a seconda della funzione di Init da implementare
 int main(void) {
-   LPC_SYSCON->SYSAHBCLKCTRL0 |= 1 << 20;  //abilito il GPIO1
-   ACT_R
+   uint32_t temp;
 
    // Enable clocks to relevant peripherals: SWM e SCT
    LPC_SYSCON->SYSAHBCLKCTRL0 |= (1 << 7) | (1 << 8);
-   // configure the SWM to output CTOUT_0 to PIO0_7 //
-   LPC_SWM->PINASSIGN6 = 0x07ffffff;
+   // // configure the SWM to output CTOUT_0 to PIO0_7 //
+   // LPC_SWM->PINASSIGN6 = 0x07ffffff;
+
+   //  ConfigSWM(SCT_OUT0, LED_GREEN); // SCT output 0 on green LED port pin (0=on, 1=off)
+   // assegno P1_0 (LED VERDE) a SCT_OUT0 con Switch Matrix
+   temp = LPC_SWM->PINASSIGN[7];  //copio Pin assign register 6 (per SCT_OUT0_O)
+   temp &= ~(0xFF << 24);         //azzero bit di selezione pin (31:24)
+   temp |= (0x20 << 24);          //imposto P1_0 (LED VERDE)
+   LPC_SWM->PINASSIGN[7] = temp;  // imposto registro
+
+   // CONFIGURE the SCT
    // Give the module a reset
    LPC_SYSCON->PRESETCTRL[0] &= ~(1 << 8);  //Assert the SCT reset
    LPC_SYSCON->PRESETCTRL[0] |= (1 << 8);   //Clear the SCT reset
 
-   void SCT_Init1(void);          // ## Initialize the SCT
+   void SCT_Init2(void);          // ## Initialize the SCT
    LPC_SCT->CTRL_L &= ~(1 << 2);  // unhalt the SCT by clearing bit 2 of the CTRL register //
 
    // Enter an infinite loop, just incrementing a counter //
    volatile static int i = 0;
 
    while (1) {
-      i++;
    }
-   return 0;
 }
 
 void SCT_Init1(void)  //repetitive IRQ
@@ -69,20 +75,22 @@ void SCT_Init1(void)  //repetitive IRQ
 void SCT_Init2(void)  // Blinky Match
 {
    LPC_SCT->CONFIG |= 1;                     // unified timer
+   LPC_SCT->MATCH[0].U = (SCC / 10) - 1;     // match 0 @ 10 Hz = 100 msec
    LPC_SCT->MATCHREL[0].U = (SCC / 10) - 1;  // match 0 @ 10 Hz = 100 msec
-   LPC_SCT->EVENT[0].STATE = (1 << 0);       // event 0 only happens in state 0
-   LPC_SCT->EVENT[0].CTRL = (0 << 0) |       // related to match 0
-                            (1 << 12) |      // COMBMODE[13:12] = match condition only
-                            (1 << 14) |      // STATELD[14] = STATEV is loaded into state
-                            (1 << 15);       // STATEV[15] = 1 (new state is 1)
-   LPC_SCT->EVENT[1].STATE = (1 << 1);       // event 1 only happens in state 1
-   LPC_SCT->EVENT[1].CTRL = (0 << 0) |       // related to match 0
-                            (1 << 12) |      // COMBMODE[13:12] = match condition only
-                            (1 << 14) |      // STATELD[14] = STATEV is loaded into state
-                            (0 << 15);       // STATEV[15] = 0 (new state is 0)
-   LPC_SCT->OUT[0].SET = (1 << 0);           // event 0 will set SCT_OUT0
-   LPC_SCT->OUT[0].CLR = (1 << 1);           // event 1 will clear SCT_OUT0
-   LPC_SCT->LIMIT_L = 0x0003;                // events 0 and 1 are used as counter limit
+
+   LPC_SCT->EVENT[0].STATE = (1 << 0);   // event 0 only happens in state 0
+   LPC_SCT->EVENT[0].CTRL = (0 << 0) |   // related to match 0
+                            (1 << 12) |  // COMBMODE[13:12] = match condition only
+                            (1 << 14) |  // STATELD[14] = STATEV is loaded into state
+                            (1 << 15);   // STATEV[15] = 1 (new state is 1)
+   LPC_SCT->EVENT[1].STATE = (1 << 1);   // event 1 only happens in state 1
+   LPC_SCT->EVENT[1].CTRL = (0 << 0) |   // related to match 0
+                            (1 << 12) |  // COMBMODE[13:12] = match condition only
+                            (1 << 14) |  // STATELD[14] = STATEV is loaded into state
+                            (0 << 15);   // STATEV[15] = 0 (new state is 0)
+   LPC_SCT->OUT[0].SET = (1 << 0);       // event 0 will set SCT_OUT0
+   LPC_SCT->OUT[0].CLR = (1 << 1);       // event 1 will clear SCT_OUT0
+   LPC_SCT->LIMIT_L = 0x0003;            // events 0 and 1 are used as counter limit
 }
 
 void SCT_Init3(void)  //  Match & Toggle: toggle SCTx_OUT0 every 100 milliseconds

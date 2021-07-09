@@ -1,7 +1,7 @@
 
 #include "LPC8xx.h"
 #include "LED.h"
-#include "DELAY.h"
+#include "Delay.h"
 
 void clock(time_ms, lightTime_ms) {
     ACT_G

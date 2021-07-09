@@ -1,0 +1,8 @@
+{
+   "files.associations": {
+      "hd44780.h": "c",
+      "delay.h": "c",
+      "lpc8xx.h": "c",
+      "led.h": "c"
+   }
+}

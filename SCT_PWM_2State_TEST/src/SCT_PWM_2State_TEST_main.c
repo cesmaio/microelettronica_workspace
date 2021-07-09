@@ -16,24 +16,24 @@
 #include "utilities.h"
 
 // Pins used in this example:
-// green led port pin [Output] - CTOUT_0 (turns on and off the green LED)
-// red led port pin   [Output] - CTOUT_1 (turns on and off the red LED)
-// IN_PORT  [Input]  - CTIN_0  (High selects state 0 (blink_green), low selects state 1 (blink_red, can you imagine?))
+// green led port pin [Output] - SCTOUT_0 (turns on and off the green LED)
+// red led port pin   [Output] - SCTOUT_1 (turns on and off the red LED)
+// IN_PORT  [Input]  - SCTIN_0  (High selects state 0 (blink_green), low selects state 1 (blink_red, can you imagine?))
 
 // Macros to define the PWM period and the duty-cycles.
 // This example implements 'edge-aligned' PWM.
 // The SCT counter will count from 0 up to pwm_period, then start again at 0.
-#define pwm_period 30000000           // 1 s
-#define C_match_green_ON_0 0          // il LED verde si accende all'inizio del periodo (stato 0)
-#define C_match_green_OFF_0 15000000  // il LED VERDE si spegne a metà periodo (duty-cycle 50%) (stato 0)
-#define C_match_green_ON_1 0          // il LED verde si accende all'inizio del periodo (stato 1)
-#define C_match_green_OFF_1 7500000   // il LED VERDE si spegne a 1/4 di periodo (duty-cycle 25%) (stato 1)
+#define pwm_period 15000000                   // 0.5 s
+#define C_match_green_ON_0 0                  // il LED verde si accende all'inizio del periodo (stato 0)
+#define C_match_green_OFF_0 (pwm_period / 2)  // il LED VERDE si spegne a metà periodo (duty-cycle 50%) (stato 0)
+#define C_match_green_ON_1 0                  // il LED verde si accende all'inizio del periodo (stato 1)
+#define C_match_green_OFF_1 (pwm_period / 8)  // il LED VERDE si spegne a 1/4 di periodo (duty-cycle 25%) (stato 1)
 
 int main(void) {
    uint32_t temp;
 
-   // Enable clocks to relevant peripherals: SWM e SCT
-   LPC_SYSCON->SYSAHBCLKCTRL0 |= (1 << 7) | (1 << 8);
+   // Enable clocks to relevant peripherals: SWM e SCT and GPIO
+   LPC_SYSCON->SYSAHBCLKCTRL0 |= (1 << 7) | (1 << 8) | (1 << 20);
 
    /*  // Configure the SWM (see utilities_lib and lpc8xx_swm.h)
   ConfigSWM(SCT_PIN0, IN_PORT);   // SCT input 0 on port pin, for input transition events (default internal pull-up remains on)*/
@@ -56,7 +56,7 @@ int main(void) {
    // Write to SCT0_INMUX[0] to select SCT_PIN0 function (which was connected to IN_PORT in the switch matrix) as SCT input SCT_IN0
    LPC_INMUX_TRIGMUX->SCT0_INMUX0 = 0x0;
 
-   // CONFIGURE the SCT ...
+   // CONFIGURE the SCT
    // Give the module a reset
    LPC_SYSCON->PRESETCTRL[0] &= ~(1 << 8);  //Assert the SCT reset
    LPC_SYSCON->PRESETCTRL[0] |= (1 << 8);   //Clear the SCT reset
@@ -187,7 +187,7 @@ int main(void) {
   __WFI();              // Wait here. No wakeup source has been enabled in this example.
 */
 
-   while (~0) {
+   while (1) {
    }  // end of while(1)
 
 }  // end of main

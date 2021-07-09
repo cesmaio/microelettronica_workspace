@@ -36,7 +36,7 @@ libCMSIS_CORE_LPC8xx.a: $(OBJS) $(USER_OBJS)
 
 # Other Targets
 clean:
-	-$(RM) $(OBJS)$(C_DEPS)$(ARCHIVES) libCMSIS_CORE_LPC8xx.a
+	-$(RM) $(OBJS)$(ARCHIVES)$(C_DEPS) libCMSIS_CORE_LPC8xx.a
 	-@echo ' '
 
 post-build:
@@ -44,7 +44,6 @@ post-build:
 	-arm-none-eabi-size "libCMSIS_CORE_LPC8xx.a" ; # arm-none-eabi-objdump -h -S "libCMSIS_CORE_LPC8xx.a" >"libCMSIS_CORE_LPC8xx.lss"
 	-@echo ' '
 
-.PHONY: all clean dependents
-.SECONDARY: post-build
+.PHONY: all clean dependents post-build
 
 -include ../makefile.targets
