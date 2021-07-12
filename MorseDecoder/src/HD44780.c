@@ -389,137 +389,149 @@ void DisplayRight(unsigned char nplaces)
 // # CUSTOM FUNCTIONS
 
 /*****************************************************
+*****    Simply write a string on LCD   		     ****
+*****************************************************/
+void writeString(unsigned char lineOfCharacters[LCD_LINE_LENGHT]) {
+   for (unsigned int i = 0; i < LCD_LINE_LENGHT; i++) {
+      if (lineOfCharacters[i])
+         writeAscii(lineOfCharacters[i]);
+      else
+         return;
+   }
+}
+
+/*****************************************************
 *****    Write in line 1 or line 2 on LCD   		  ****
 *****************************************************/
 void writeL(unsigned int L, unsigned char lineOfCharacters[LCD_LINE_LENGHT]) {
-    switchL(L);
-    for (unsigned char i = 0; i < LCD_LINE_LENGHT; i++) {
-        if (lineOfCharacters[i])
-            WriteAscii(lineOfCharacters[i]);
-        else if (i < LCD_LINE_VISIBLE)
-            WriteAscii(32);  // fill line with spaces
-        else
-            return;
-    }
+   switchL(L);
+   for (unsigned char i = 0; i < LCD_LINE_LENGHT; i++) {
+      if (lineOfCharacters[i])
+         WriteAscii(lineOfCharacters[i]);
+      else if (i < LCD_LINE_VISIBLE)
+         WriteAscii(32);  // fill line with spaces
+      else
+         return;
+   }
 }
 
 /********************************************************************************
 *****    Write in line 1 or line 2 on LCD and  change specific chars  		  ****
 ********************************************************************************/
 void writeL_replace(unsigned int L, unsigned char lineOfCharacters[LCD_LINE_LENGHT], unsigned char toChange[], unsigned char changeInto[], uint8_t changing_size) {
-    switchL(L);
-    for (uint8_t i = 0; i < LCD_LINE_LENGHT; i++) {
-        unsigned char ch = lineOfCharacters[i];
-        // find and replace char
-        if (ch) {
-            for (uint8_t j = 0; j < changing_size; j++) {
-                if (ch == toChange[j]) {
-                    ch = changeInto[j];
-                    break;
-                }
+   switchL(L);
+   for (uint8_t i = 0; i < LCD_LINE_LENGHT; i++) {
+      unsigned char ch = lineOfCharacters[i];
+      // find and replace char
+      if (ch) {
+         for (uint8_t j = 0; j < changing_size; j++) {
+            if (ch == toChange[j]) {
+               ch = changeInto[j];
+               break;
             }
-            WriteAscii(ch);
-        } else if (i < LCD_LINE_VISIBLE)
-            WriteAscii(32);  // fill line with spaces
-        else
-            return;
-    }
+         }
+         WriteAscii(ch);
+      } else if (i < LCD_LINE_VISIBLE)
+         WriteAscii(32);  // fill line with spaces
+      else
+         return;
+   }
 }
 
 /********************************************************************
 *****    Write in line 1 or line 2 on LCD and blink it N times	  ****
 ********************************************************************/
 void writeBlinkL(unsigned int L, unsigned int cursor_initial_pos, unsigned char lineOfCharacters[LCD_LINE_LENGHT], unsigned int chars_num, unsigned int blink_n, int blink_time) {
-    switchL(L);
-    // move cursor to initial position
-    for (unsigned int i = 0; i < cursor_initial_pos; i++) {
-        PutCommand(CURSOR_MOVE_SHIFT_RIGHT);
-    }
+   switchL(L);
+   // move cursor to initial position
+   for (unsigned int i = 0; i < cursor_initial_pos; i++) {
+      PutCommand(CURSOR_MOVE_SHIFT_RIGHT);
+   }
 
-    for (unsigned int i = 0; i < blink_n; i++) {
-        // delete chars in line
-        PutCommand(ENTRY_MODE_INC_NO_SHIFT);
-        for (unsigned int j = 0; j < chars_num; j++) {
-            WriteAscii(32);  // space
-        }
-        DelayMs(blink_time);  // OFF time
-        // go back and write chars backwards
-        PutCommand(CURSOR_MOVE_SHIFT_LEFT);
-        PutCommand(ENTRY_MODE_DEC_NO_SHIFT);
-        for (int j = chars_num - 1; j >= 0; j--) {
-            WriteAscii(lineOfCharacters[j]);
-        }
-        DelayMs(blink_time);  // ON time
-        PutCommand(CURSOR_MOVE_SHIFT_RIGHT);
-    }
+   for (unsigned int i = 0; i < blink_n; i++) {
+      // delete chars in line
+      PutCommand(ENTRY_MODE_INC_NO_SHIFT);
+      for (unsigned int j = 0; j < chars_num; j++) {
+         WriteAscii(32);  // space
+      }
+      DelayMs(blink_time);  // OFF time
+      // go back and write chars backwards
+      PutCommand(CURSOR_MOVE_SHIFT_LEFT);
+      PutCommand(ENTRY_MODE_DEC_NO_SHIFT);
+      for (int j = chars_num - 1; j >= 0; j--) {
+         WriteAscii(lineOfCharacters[j]);
+      }
+      DelayMs(blink_time);  // ON time
+      PutCommand(CURSOR_MOVE_SHIFT_RIGHT);
+   }
 }
 
 /*************************************************************
 *****    Switch LCD line with cursor   				       ****
 **************************************************************/
 unsigned int switchL(unsigned int L) {
-    switch (L) {
-        case 1:
-            PutCommand(LINE1_HOME);
-            break;
-        case 2:
-            PutCommand(LINE2_HOME);
-            break;
-        default:
-            return 1;  // error
-            break;
-    }
-    return 0;
+   switch (L) {
+      case 1:
+         PutCommand(LINE1_HOME);
+         break;
+      case 2:
+         PutCommand(LINE2_HOME);
+         break;
+      default:
+         return 1;  // error
+         break;
+   }
+   return 0;
 }
 
 /*************************************************************
 *****    Clear line 1 or line 2 on LCD				      	 ****
 **************************************************************/
 unsigned int clearL(unsigned int L) {
-    switch (L) {
-        case 1:
-            PutCommand(LINE1_HOME);
-            break;
-        case 2:
-            PutCommand(LINE2_HOME);
-            break;
-        default:
-            return 1;  // error
-            break;
-    }
+   switch (L) {
+      case 1:
+         PutCommand(LINE1_HOME);
+         break;
+      case 2:
+         PutCommand(LINE2_HOME);
+         break;
+      default:
+         return 1;  // error
+         break;
+   }
 
-    for (uint8_t i = 0; i < LCD_LINE_VISIBLE; i++) {
-        WriteAscii(32);  //space
-    }
+   for (uint8_t i = 0; i < LCD_LINE_VISIBLE; i++) {
+      WriteAscii(32);  //space
+   }
 
-    return 0;
+   return 0;
 }
 
 /**************************************************
 *****   Write a character on LCD (WriteAscii)  ****
 ***************************************************/
 void writeC(unsigned char symbol) {
-    DelayMs(1);               // Wait until LCD is free
-    WriteByte(DATA, symbol);  // Write character to DR
+   DelayMs(1);               // Wait until LCD is free
+   WriteByte(DATA, symbol);  // Write character to DR
 }
 
 /****************************************************
 *****     Slide LCD display to left or right 	 ****
 *****************************************************/
 unsigned int slideDisplay(char dir, unsigned int slide_time) {
-    DelayMs(1);
-    for (uint8_t i = 0; i < LCD_LINE_VISIBLE; i++) {
-        if (dir == 'l')
-            PutCommand(DISPLAY_MOVE_SHIFT_LEFT);
-        else if (dir == 'r')
-            PutCommand(DISPLAY_MOVE_SHIFT_RIGHT);
-        else
-            return 1;  // error
+   DelayMs(1);
+   for (uint8_t i = 0; i < LCD_LINE_VISIBLE; i++) {
+      if (dir == 'l')
+         PutCommand(DISPLAY_MOVE_SHIFT_LEFT);
+      else if (dir == 'r')
+         PutCommand(DISPLAY_MOVE_SHIFT_RIGHT);
+      else
+         return 1;  // error
 
-        DelayMs(slide_time);
-    }
+      DelayMs(slide_time);
+   }
 
-    return 0;
+   return 0;
 }
 
 /****************************************************
@@ -527,16 +539,16 @@ unsigned int slideDisplay(char dir, unsigned int slide_time) {
 *****************************************************/
 
 unsigned int writeToXY(unsigned int x, unsigned int y, unsigned char lineOfCharacters[LCD_LINE_LENGHT]) {
-    switchL(y + 1);
+   switchL(y + 1);
 
-    if (x < 0 || x > 15)
-        return 1;  // out bound
+   if (x < 0 || x > 15)
+      return 1;  // out bound
 
-    for (unsigned int i = 0; i < x; i++) {
-        PutCommand(CURSOR_MOVE_SHIFT_RIGHT);
-    }
+   for (unsigned int i = 0; i < x; i++) {
+      PutCommand(CURSOR_MOVE_SHIFT_RIGHT);
+   }
 
-    WriteAfter(lineOfCharacters);
+   WriteAfter(lineOfCharacters);
 
-    return 0;
+   return 0;
 }

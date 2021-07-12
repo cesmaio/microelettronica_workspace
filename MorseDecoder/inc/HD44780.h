@@ -101,6 +101,7 @@ void Write_HDval2(unsigned int dummyVal);
 
 
 // # Custom
+void writeString(unsigned char lineOfCharacters[LCD_LINE_LENGHT]);
 void writeL(unsigned int L, unsigned char lineOfCharacters[LCD_LINE_LENGHT]);
 void writeL_replace(unsigned int L, unsigned char lineOfCharacters[LCD_LINE_LENGHT], unsigned char toChange[], unsigned char changeInto[], uint8_t changing_size);
 void writeBlinkL(unsigned int L, unsigned int cursor_initial_pos, unsigned char lineOfCharacters[LCD_LINE_LENGHT], unsigned int chars_num, unsigned int blink_n, int blink_time);

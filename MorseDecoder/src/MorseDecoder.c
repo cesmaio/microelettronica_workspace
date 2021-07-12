@@ -31,55 +31,155 @@
 #define dash 3
 #define space 5
 /* dichiaro le lettere (i simboli) traducibili dal codice morse */
-unsigned int A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R, S, T, U, V, W, X, Y, Z;
-unsigned int _1, _2, _3, _4, _5, _6, _7, _8, _9, _0;
+/* *
+    * ogni lettera è associata ad un numero intero le cui cifre di posizione pari (partendo a contare da 0)
+    * indicano un 'dot' o un 'dash'. Mentre le cifre di ordine dispari indicano lo spazio fra due simboli
+    * (che ha le dimensioni di un dot)
+    * */
+#define A 113
+#define B 3111111
+#define C 3111311
+#define D 31111
+#define E 1
+#define F 1111311
+#define G 31311
+#define H 1111111
+#define I 111
+#define J 1131313
+#define K 31113
+#define L 1131111
+#define M 313
+#define N 311
+#define O 31313
+#define P 1131311
+#define Q 3131113
+#define R 11311
+#define S 11111
+#define T 3
+#define U 11113
+#define V 1111113
+#define W 11313
+#define X 3111113
+#define Y 3111313
+#define Z 3131111
+#define _1 113131313
+#define _2 111131313
+#define _3 111111313
+#define _4 111111113
+#define _5 111111111
+#define _6 311111111
+#define _7 313111111
+#define _8 313131111
+#define _9 313131311
+#define _0 313131313
+
 #define EndOfLetter 9  // simboleggia la fine della lettera composta da simboli in codice morse
+
+#define ChangeModeBtn_pressed !(LPC_GPIO_PORT->PIN0 & (1 << 8))  // P.08
 
 uint32_t prev_time = 0, dt = 0;  // per il calcolo dell'intervallo di tempo nel CTimer (in ms)
 unsigned int measure = 0;        // indica che sta avvenendo una misura di tempo (per scrittura codice morse)
 
 // # prototipi
 unsigned int setupLCD(unsigned int bit);  // init LCD 2 lines 4 bit/8 bit
+void welcome();                           // print info message on LCD screen
 // per misurare l'intervallo temporale di pressione/rilascio (falling and rising edges) del pulsante di input (per la scrittura del codice morse)
-void InitCTimer();  // inizializzo il CTimer per misurare l'intervallo di pressione del pulsante (rising and falling edges)
+void InitCTimer(unsigned int mode);  // inizializzo il CTimer, due modalità possibili:
+                                     // mode 0: Impostazione timeUnit, per misurare l'intervallo di pressione del pulsante (falling edge)
+                                     // mode 1: Scrittura MorseCode, per misurare l'intervallo di pressione del pulsante (rising and falling edges)
 // per indicare all'utente il rate di lettura del codice morse (che si scrive utilizzando il pulsante di input) utilizzo SCT per comandare il led verde in PWM
 void InitSCT(unsigned int SystemCoreClock, uint32_t timeUnit /* in ms */);  // inizializza SCT impostando il periodo in base all'unità temporale (in ms)
-unsigned int setMorseRules();                                               // assegna i valori per la conversione alle lettere (simboli morse)
 unsigned int translateMorseSymbol(uint32_t time, uint32_t timeUnit /* in ms*/);
-unsigned int translateMorseLetter(unsigned int letter, int MAX_SIZE);
+unsigned char translateMorseLetter(unsigned int *letter, int MAX_SIZE);
 
 int main(void) {
-   uint32_t timeUnit = 200;         // imposta l'unità temporale (rate di scrittura codice morse)
-   unsigned int symbol;             // tradotto in codice morse dalla lettura
-   unsigned int morseLetter[10];    // la "lettera" composta da simboli in codice morse (tratto/punto)
-   unsigned int lastSymbolPos = 0;  // posizione dell'ultimo simbolo inserito in morseWord
-   unsigned char phrase[42];        // la "frase" tradotta (non supera le dimensioni del display)
-
-   InitSCT(SSC, timeUnit);  // Lampeggia GREEN LED in PWM per indicare l'unità temporale (di scrittura del codice morse)
-   InitCTimer();            // cattura gli eventi di "press" and "release" del pulsante per scrivere il codice morse
    if (!setupLCD(8)) {
       R_ON return 1;
    }  // accendi LED R on board se c'è un errore
-   setMorseRules();
+
+   welcome();  // print info message on LCD screen
+
+   uint32_t timeUnit = 200;  // imposta l'unità temporale (rate di scrittura codice morse)
+
+   // inizializza CTimer per impostare l'unità temporale preferita (mode 0)
+   InitCTimer(0);  // tap on USER button to set timeUnit (tempo di scrittura del codice morse)
+
+   // messaggio a schermo
+   writeL(1, "Tap USER button");
+   writeL(2, "to set time unit");
+
+   while (ChangeModeBtn_pressed) {
+      if (measure) {
+         timeUnit = dt;
+         switchL(2);  // go to line 2 of LCD
+         writeString("time unit: ");
+         Write_ndigitsval_space(dt, 5);
+
+         measure = 0;  // reset misurazione in corso
+      }
+
+      // reset dei registri del CTimer per evitare di superare 24bit
+      if (LPC_CTIMER0->TC > 0xFFFFFFF) {
+         LPC_CTIMER0->TCR = 1 << 1;
+         LPC_CTIMER0->TCR = 1 << 0;  // riabilita il conteggio
+      }
+   }
+
+   InitCTimer(1);           // enter mode 1: scrittura codice morse (lettura intervalli di pressione e rilascio)
+   InitSCT(SSC, timeUnit);  // Lampeggia GREEN LED in PWM per indicare l'unità temporale (di scrittura del codice morse)
+
+   unsigned int symbol;             // tradotto in codice morse dalla lettura
+   unsigned int morseLetter[10];    // la "lettera" composta da simboli in codice morse (tratto/punto)
+   unsigned int lastSymbolPos = 0;  // posizione dell'ultimo simbolo inserito in morseWord
+   unsigned char humanLetter;       // la lettera effettiva (alfabeto)
+   unsigned char phrase[42];        // la "frase" tradotta (non supera le dimensioni del display)
 
    PutCommand(LINE1_HOME);
 
    while (1) {
       if (measure) {
          symbol = translateMorseSymbol(dt, timeUnit);
-         if (!symbol) {                                     // errore di inserimento
-         } else if (symbol == dash && lastSymbolPos % 2) {  // se il simbolo è in posizione dispari ed ha la lunghezza di un dash, è uno spazio tra due lettere
-            morseLetter[lastSymbolPos] = EndOfLetter;
-            translateMorseLetter(morseLetter, 10);
-         } else {
-            morseLetter[lastSymbolPos++] = symbol;
+         if (!symbol) {  // errore di inserimento
+            // accendi LED ROSSO per tot ms (a simboleggiare l'errore. Non elaborare questo input)
+            continue;
          }
-         Write_ndigitsval(symbol, 1);
+         if (lastSymbolPos % 2) {  // simbolo in posizione dispari (pausa tra due segnali punto/tratto)
+            switch (symbol) {
+               case dot:  // spazio fra due simboli
+                  morseLetter[lastSymbolPos++] = dot;
+                  break;
+               case dash:  // spazio tra due lettere
+                  morseLetter[lastSymbolPos] = EndOfLetter;
+                  // traduci la lettera appena inserita e stampala a schermo
+                  humanLetter = translateMorseLetter(morseLetter, 10);
+                  lastSymbolPos = 0;  // reset posizione di morseLetter
+
+                  WriteAfter(humanLetter);
+                  break;
+               case space:  // spazio tra due parole
+                  WriteAfter(" ");
+                  break;
+               default:
+                  break;
+            }
+         } else {  // simbolo in posizione pari (segnale morse)
+            switch (symbol) {
+               case space:  // enter "DAC MODE"
+                            // pulisci lo schermo e scrivi il codice numerico DAC
+                            // aspetta l'inserimento di 4 cifre decimali da passare al DAC
+                  break;
+               default:  // dot or dash
+                  morseLetter[lastSymbolPos++] = symbol;
+                  break;
+            }
+         }
+
+         // Write_ndigitsval(symbol, 1);
 
          measure = 0;  // reset misurazione in corso
       }
 
-      // reset dei registri per evitare di superare 24bit
+      // reset dei registri del CTimer per evitare di superare 24bit
       if (LPC_CTIMER0->TC > 0xFFFFFFF) {
          LPC_CTIMER0->TCR = 1 << 1;
          LPC_CTIMER0->TCR = 1 << 0;  // riabilita il conteggio
@@ -103,16 +203,27 @@ unsigned int setupLCD(unsigned int bit) {
    return 1;
 }
 
-void InitCTimer() {
+void InitCTimer(unsigned int mode) {
+   /* *
+    * mode 0: set timeUnit
+    * mode 1: record time to write morse
+    * */
+
    LPC_SYSCON->SYSAHBCLKCTRL[0] |= (1 << 7) | (1 << 25);  // Accendi clock per SWM e CTIMER0
 
    // Configurazione del Counter/Timer Control Register
    // Counter mode: timer mode (clock della periferica)
    LPC_CTIMER0->CTCR = 0x0 << 0;  // come da reset
 
-   LPC_CTIMER0->CCR = (1 << 1) |  //cattura TC su fronte di discesa di CAP0
-                      (1 << 0) |  // cattura TC su fronte di salita di CAP0
-                      (1 << 2);   //genera interrupt sull'evento di cattura da CAP0
+   if (mode) {                       // mode 1
+      LPC_CTIMER0->CCR = (1 << 1) |  //cattura TC su fronte di discesa di CAP0
+                         (1 << 2);   //genera interrupt sull'evento di cattura da CAP0
+   } else {
+      // mode 0
+      LPC_CTIMER0->CCR = (1 << 1) |  //cattura TC su fronte di discesa di CAP0
+                         (1 << 0) |  // cattura TC su fronte di salita di CAP0
+                         (1 << 2);   //genera interrupt sull'evento di cattura da CAP0
+   }
 
    LPC_CTIMER0->TCR = 1 << 1;  // Reset dei registri
 
@@ -121,22 +232,22 @@ void InitCTimer() {
    LPC_CTIMER0->PR = 30000000 / 1000 - 1;  // 1ms di periodo
 
    // config Switch Matrix
-   // TO_CAP0 connesso a P0.8
+   // TO_CAP0 connesso a P0.4 (USER button)
    unsigned int dummyVal = LPC_SWM->PINASSIGN[14];
    dummyVal &= ~(0xFF << 8);  //azzera bit 8:15
-   dummyVal |= (0x08 << 8);   //P0.8
+   dummyVal |= (0x04 << 8);   //P0.4 (USER button)
    LPC_SWM->PINASSIGN[14] = dummyVal;
 
    LPC_CTIMER0->TCR = 1 << 0;  // Abilita CTIMER0
 }
 
-void CTIMER0_IRQHandler() {
+void CTIMER0_IRQHandler() {           // calcola intervallo temporale dt
    if (LPC_CTIMER0->IR & (1 << 4)) {  // evento - record time in ms
       dt = LPC_CTIMER0->CR[0] - prev_time;
       prev_time = LPC_CTIMER0->CR[0];
 
       measure = 1;  // misurazione effettuata, riporta risultato nel main
-      // elimino la pausa antirmbalzo per una misura più precisa
+      // elimino la pausa anti-rimbalzo per una misura più precisa
       LPC_CTIMER0->IR = 1 << 4;  // Bisogna eliminare l'interrupt
    }
 }
@@ -147,7 +258,7 @@ void InitSCT(unsigned int SystemCoreClock, uint32_t timeUnit /* in ms*/) {
    unsigned int GreenON = 0;                 // il LED VERDE si accende all'inizio del periodo (stato 0)
    unsigned int GreenOFF = basePeriod / 10;  // il LED VERDE si spegne poco dopo
    unsigned int RedON = 0;                   // il LED ROSSO si accende all'inizio del periodo (stato 1)
-   unsigned int RedOFF = basePeriod / 10;    // il LED ROSSO si spegne poco dopo
+   unsigned int RedOFF = basePeriod / 50;    // il LED ROSSO si spegne con duty cycle 50%
 
    uint32_t temp;
 
@@ -301,71 +412,23 @@ void InitSCT(unsigned int SystemCoreClock, uint32_t timeUnit /* in ms*/) {
    LPC_SCT->CTRL_L &= ~(1 << Halt_L);
 }
 
-unsigned int setMorseRules() {
-   /* Follow the INTERNATIONAL MORSE CODE (check /docs/international_morse_code.png)*/
-   /* *
-    * ogni lettera è associata ad un numero intero le cui cifre di posizione pari (partendo a contare da 0)
-    * indicano un 'dot' o un 'dash'. Mentre le cifre di ordine dispari indicano lo spazio fra due simboli
-    * (che ha le dimensioni di un dot)
-    * */
-
-   A = 113;
-   B = 3111111;
-   C = 3111311;
-   D = 31111;
-   E = 1;
-   F = 1111311;
-   G = 31311;
-   H = 1111111;
-}
-
 unsigned int translateMorseSymbol(uint32_t time, uint32_t timeUnit /* in ms*/) {
-   unsigned int symbol = time / timeUnit;  // interpreta il simbolo corrispondente alle nità temporali
-                                           // per semplicità di inserimento sono stati scelti range molto ampi per l'interpretazione dei simboli
-   if (symbol >= 0 && symbol < 2) {
+   unsigned int symbol = time / timeUnit;  // interpreta il simbolo corrispondente alle unità temporali
+
+   // per semplicità di inserimento sono stati scelti range molto ampi per l'interpretazione dei simboli
+   if (symbol >= (dot - 1) && symbol < (dot + 1)) {
       return dot;
    }
-   if (symbol >= 2 && symbol < 4) {
+   if (symbol >= (dash - 1) && symbol < (dash + 1)) {
       return dash;
    }
-   if (symbol >= 4 && symbol < 6) {
+   if (symbol >= (space - 1) && symbol < (space + 1)) {
       return space;
    }
    return 0;  // errore di inserimento
-
-   // uint32_t modulo = time % timeUnit;
-   // // get only first digit
-   // while (modulo >= 10) {
-   //    modulo = modulo / 10;
-   // }
-   // // approssima per eccesso o per difetto l'intervallo temporale letto per suddividerlo in unità temporali
-   // unsigned int eccesso = 0;
-   // if (modulo > 5) {
-   //    eccesso = 1;
-   // }
-
-   // unsigned int symbol = 0;
-   // switch ((time / timeUnit) + eccesso) {  // interpreta il simbolo corrispondente alle unità di tempo
-   //    case 0:
-   //       symbol = dot;  // tempo minimo viene comunque interpretato come punto
-   //       break;
-   //    case dot:
-   //       symbol = dot;
-   //       break;
-   //    case dash:
-   //       symbol = dash;
-   //       break;
-   //    case space:
-   //       symbol = space;
-   //       break;
-   //    default:
-   //       // in caso di errore scrivi '#'
-   //       break;
-   // }
-   // return symbol;
 }
 
-unsigned int translateMorseLetter(unsigned int *letter, int MAX_SIZE) {
+unsigned char translateMorseLetter(unsigned int *letter, int MAX_SIZE) {
    int num = 0;
    for (unsigned int i = 0; i < MAX_SIZE; i++) {
       if (letter[i] == EndOfLetter) {
@@ -373,5 +436,83 @@ unsigned int translateMorseLetter(unsigned int *letter, int MAX_SIZE) {
       }
       num = 10 * num + letter[i];  // converti array di numeri in singolo numero intero
    }
-   return num;
+   // compara il numero ottenuto con le lettere associate al codice morse (definite a inizio codice)
+   switch (num) {
+      case A:
+         return 'A';
+      case B:
+         return 'B';
+      case C:
+         return 'C';
+      case D:
+         return 'D';
+      case E:
+         return 'E';
+      case F:
+         return 'F';
+      case G:
+         return 'G';
+      case H:
+         return 'H';
+      case I:
+         return 'I';
+      case J:
+         return 'J';
+      case K:
+         return 'K';
+      case L:
+         return 'L';
+      case M:
+         return 'M';
+      case N:
+         return 'N';
+      case O:
+         return 'O';
+      case P:
+         return 'P';
+      case Q:
+         return 'Q';
+      case R:
+         return 'R';
+      case S:
+         return 'S';
+      case T:
+         return 'T';
+      case U:
+         return 'U';
+      case V:
+         return 'V';
+      case W:
+         return 'W';
+      case X:
+         return 'X';
+      case Y:
+         return 'Y';
+      case Z:
+         return 'Z';
+      case _1:
+         return '1';
+      case _2:
+         return '2';
+      case _3:
+         return '3';
+      case _4:
+         return '4';
+      case _5:
+         return '5';
+      case _6:
+         return '6';
+      case _7:
+         return '7';
+      case _8:
+         return '8';
+      case _9:
+         return '9';
+      case _0:
+         return '0';
+
+      default:
+         break;
+   }
+   return '#'  // errore: non corrisponde a nessuna lettera
 }
